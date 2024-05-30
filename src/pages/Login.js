@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Link,Divider } from '@mui/material';
 import "../App.css";
 import FTextField from '../components/form/FTextField';
 function Login() {
@@ -62,7 +62,7 @@ function Login() {
                         validationRules={{ required: 'Password must not be empty' }}
                     />
                     <Typography underline="none" sx={{ alignSelf: 'flex-end', mb: 2 }}>
-                        <Link href="/forgotpassword" underline='hover'>
+                        <Link href="/reset" underline='hover'>
                             Forgot Password?
                         </Link>
                     </Typography>
@@ -72,6 +72,15 @@ function Login() {
                         sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
                         Login
+                    </Button>
+                    <Divider sx={{ my: 2 }} />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
+                        onClick={() => { console.log('Register with Google'); }}
+                    >
+                        Login with Google
                     </Button>
                     <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
                         Don't have an account?{' '}

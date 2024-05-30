@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Logo from '../components/Logo';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
+// import EditCustomerAccount from '../pages/EditCusAcc';
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -71,7 +72,9 @@ export default function PrimarySearchAppBar() {
         // Navigate to the login page
         navigate('/login');
     };// Temporary logout function
-
+    const handleMyAcc = () => {
+        navigate('/editAcc');
+    }
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -107,7 +110,7 @@ export default function PrimarySearchAppBar() {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMyAcc}>My account</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
 
         </Menu>
@@ -196,7 +199,7 @@ export default function PrimarySearchAppBar() {
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'None', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                        <IconButton href="/cart" size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
                                 <ShoppingCartIcon />
                             </Badge>

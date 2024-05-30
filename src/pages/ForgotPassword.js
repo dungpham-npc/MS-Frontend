@@ -3,7 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
 import "../App.css";
 import FTextField from '../components/form/FTextField';
-function Login() {
+function ForgotPassword() {
     // const [username, setUsername] = useState('');
     // const [password, setPassword] = useState('');
     // const [errors, setErrors] = useState({});
@@ -61,18 +61,13 @@ function Login() {
                         variant="contained"
                         sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
-                        Login
+                        Send Email
                     </Button>
-                    <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
-                        Don't have an account?{' '}
-                        <Link href="/register" underline="hover">
-                            Register
-                        </Link>
-                    </Typography>
+                    
                 </Box>
             </Container>
         </FormProvider>
     );
 };
 
-export default Login;
+export default ForgotPassword;

@@ -92,19 +92,12 @@ function Register() {
                         variant="contained"
                         color="primary"
                         sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
-                        onClick={() => { console.log('Register with Google'); }}
+                        onClick={() => { console.log('Login with Google'); }}
                     >
-                        Register with Google
+                        Login with Google
                     </Button>
 
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ backgroundColor: '#3b5998', '&:hover': { backgroundColor: '#2d4373' } }}
-                        onClick={() => { console.log('Register with Facebook'); }}
-                    >
-                        Register with Facebook
-                    </Button>
+                    
                 </Box>
             </Container>
         </FormProvider>
