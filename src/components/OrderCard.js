@@ -1,18 +1,23 @@
-// src/components/OrderCard.js
+
 import React from 'react';
-import { Card, Typography, Box } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Card, CardContent, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const OrderCard = ({ order }) => {
+    
+    const navigate= useNavigate();
+    const handleCardClick = () => {
+        navigate(`/toship/${order.id}`);
+    };
+
     return (
-        <Card sx={{ mb: 3, p: 2, border: 1, borderColor: 'grey.400' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="h6">Order #{order.id}</Typography>
-                <Typography variant="subtitle1">{order.status}</Typography>
-            </Box>
-            <Typography variant="body1">Customer: {order.customerName}</Typography>
-            <Typography variant="body1">Total: ${order.total}</Typography>
-            <Typography variant="body1">Delivery Address: {order.address}</Typography>
+        <Card onClick={handleCardClick} sx={{ mb: 2, cursor: 'pointer' }}>
+            <CardContent>
+                <Typography variant="h6">{order.customerName}</Typography>
+                <Typography>Total: ${order.total}</Typography>
+                <Typography>Status: {order.status}</Typography>
+                <Typography>Address: {order.address}</Typography>
+            </CardContent>
         </Card>
     );
 };
