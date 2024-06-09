@@ -4,6 +4,7 @@ import { Box, Button, Typography, Container, Alert,Card, List, ListItem, ListIte
 import SkipInputField from '../components/form/SkipInputField';
 import apiService from '../app/apiService';
 import { Link as RouterLink } from 'react-router-dom';
+import UserInfoCard from '../components/UserInfoCard';
 
 const EditCustomerAccount = () => {
     const [formValues, setFormValues] = useState({
@@ -54,25 +55,9 @@ const EditCustomerAccount = () => {
     };
 
     return (
-        <Container sx={{ padding: 3, display: 'flex' }}>
-            <Box sx={{ flex: 1, mr: 3 }}>
-            <Card sx={{ mb: 3, p: 2, border: 1, borderColor: 'grey.400' }}>
-                    <Typography variant="h6">
-                        {/* {formValues.name} */}Nguyen Dinh Bao
-                    </Typography>
-                </Card>
-                <Card sx={{ p: 2 , border: 1, borderColor: 'grey.400'}}>
-                    <List>
-                        <ListItem button component={RouterLink} to="/change-password">
-                            <ListItemText primary="Change Password" />
-                        </ListItem>
-                        <ListItem button component={RouterLink} to="/my-purchases">
-                            <ListItemText primary="Purchase history" />
-                        </ListItem>
-                        
-                    </List>
-                </Card>
-            </Box>
+        <Container >
+            <Box sx={{ display: 'flex', mt: 5 }}>
+            <UserInfoCard name="Nguyen Dinh Bao" />
             <Box sx={{ flex: 2 }}>
                 <Typography variant="h4" gutterBottom>
                     My profile
@@ -83,26 +68,43 @@ const EditCustomerAccount = () => {
                 {!loading && (
                     <Box>
                         <SkipInputField
-                            label="Name"
+                            label="Full name"
                             name="name"
-                            value={formValues.name}
+                            // value={formValues.name} kêu value của name
                             onChange={handleInputChange}
                             helperText="Name is required"
                         />
                         <SkipInputField
+                            label="Phone number"
+                            name="phoneNo"
+                            type="number" // su dung regex de check so dien thoai
+                            // value={formValues.email} kêu value của email
+                            onChange={handleInputChange}
+                            helperText="Phone number is required"
+                            sx={{ mt: 2 }}
+                        />
+                        <SkipInputField
                             label="Email"
                             name="email"
-                            value={formValues.email}
+                            // value={formValues.email} kêu value của email
                             onChange={handleInputChange}
                             helperText="Email is required"
                             sx={{ mt: 2 }}
                         />
                         <SkipInputField
-                            label="Address"
-                            name="address"
-                            value={formValues.address}
-                            onChange={handleInputChange}
-                            helperText="Address is required"
+                            label="Date of birth"
+                            name="dob"
+                            // value={formValues.address}
+                            // onChange={handleInputChange} kêu value của address
+                            helperText="Date of birth is required" 
+                            sx={{ mt: 2 }}
+                        />
+                        <SkipInputField
+                            label="Sex"
+                            name="sex"
+                            // value={formValues.address}
+                            // onChange={handleInputChange} kêu value của address
+                            helperText="Sex is required" 
                             sx={{ mt: 2 }}
                         />
                         <Button
@@ -115,6 +117,7 @@ const EditCustomerAccount = () => {
                         </Button>
                     </Box>
                 )}
+            </Box>
             </Box>
         </Container>
     );

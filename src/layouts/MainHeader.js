@@ -107,7 +107,8 @@ export default function PrimarySearchAppBar() {
                 horizontal: 'right',
             }}
             open={isMenuOpen}
-            onClose={handleMenuClose}
+            // onClose={handleMenuClose}
+            onClick={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMyAcc}>My account</MenuItem>
@@ -186,7 +187,7 @@ export default function PrimarySearchAppBar() {
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
-                        MUI
+                        Milk Store
                     </Typography>
                     <Search>
                         <SearchIconWrapper>
