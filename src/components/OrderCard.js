@@ -7,7 +7,7 @@ const OrderCard = ({ order }) => {
     
     const navigate= useNavigate();
     const handleCardClick = () => {
-        navigate(`/toship/${order.id}`);
+        navigate(`/orderstatus/${order.id}`);
     };
 
     return (
