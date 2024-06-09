@@ -1,33 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
-import "../App.css";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import FTextField from '../components/form/FTextField';
-function ForgotPassword() {
-    // const [username, setUsername] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [errors, setErrors] = useState({});
+import "../App.css";
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const validationErrors = {};
-    //     if (!username) {
-    //         validationErrors.username = 'Field cannot be blank';
-    //     }
-    //     if (!password) {
-    //         validationErrors.password = 'Field cannot be blank';
-    //     }
-    //     setErrors(validationErrors);
-    //     if (Object.keys(validationErrors).length === 0) {
-    //         // Proceed with form submission
-    //         console.log('Form submitted');
-    //     }
-    // };
-    const methods = useForm();
+const schema = yup.object().shape({
+    email: yup.string().required('Email must not be empty').email('Must be a valid email'),
+});
+
+function ForgotPassword() {
+    const methods = useForm({
+        resolver: yupResolver(schema),
+        mode: 'onChange'
+    });
 
     const onSubmit = (data) => {
         console.log(data);
     };
+
     return (
         <FormProvider {...methods}>
             <Container maxWidth="sm">
@@ -49,13 +41,11 @@ function ForgotPassword() {
                         Forgot your password?
                     </Typography>
                     <FTextField
-                        name="username"
-                        label="Phone number/Email address"
+                        name="email"
+                        label="Email"
                         variant="outlined"
-                        validationRules={{ required: 'Phone number/Email address must not be empty' }}
+                        validationRules={{ required: 'Email must not be empty' }}
                     />
-
-
                     <Button
                         type="submit"
                         variant="contained"
@@ -63,11 +53,10 @@ function ForgotPassword() {
                     >
                         Send Email
                     </Button>
-                    
                 </Box>
             </Container>
         </FormProvider>
     );
-};
+}
 
 export default ForgotPassword;

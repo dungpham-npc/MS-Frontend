@@ -31,6 +31,20 @@ const CartPage = () => {
             price: 200,
             quantity: 1,
         },
+        {
+            id: '2',
+            name: 'Adidas Yeezy Boost 350',
+            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
+            price: 200,
+            quantity: 1,
+        },
+        {
+            id: '2',
+            name: 'Adidas Yeezy Boost 350',
+            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
+            price: 200,
+            quantity: 1,
+        },
     ];
 
     const [cartItems, setCartItems] = useState(initialCartItems);

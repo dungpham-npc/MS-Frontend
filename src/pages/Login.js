@@ -1,39 +1,42 @@
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { TextField, Button, Container, Typography, Box, Link,Divider } from '@mui/material';
-import "../App.css";
+import { TextField, Button, Container, Typography, Box, Link, Divider } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import FTextField from '../components/form/FTextField';
-function Login() {
-    // const [username, setUsername] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [errors, setErrors] = useState({});
+import "../App.css";
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const validationErrors = {};
-    //     if (!username) {
-    //         validationErrors.username = 'Field cannot be blank';
-    //     }
-    //     if (!password) {
-    //         validationErrors.password = 'Field cannot be blank';
-    //     }
-    //     setErrors(validationErrors);
-    //     if (Object.keys(validationErrors).length === 0) {
-    //         // Proceed with form submission
-    //         console.log('Form submitted');
-    //     }
-    // };
-    const methods = useForm();
+const schema = yup.object().shape({
+    email: yup.string().required('Phone number/Email must not be empty').email('Must be a valid email'),
+    password: yup.string().required('Password must not be empty')
+});
+
+function Login() {
+    const [isLogin, setIsLogin] = useState(true);
+    
+    const toggleForm = () => {
+        setIsLogin(!isLogin);
+    };
+    
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    };
+
+    const methods = useForm({
+        resolver: yupResolver(schema),
+        mode: 'onChange'
+    });
 
     const onSubmit = (data) => {
         console.log(data);
     };
+
     return (
         <FormProvider {...methods}>
             <Container maxWidth="sm">
                 <Box
                     component="form"
-                    onSubmit={methods.handleSubmit(onSubmit)}
+                    action="http://localhost:8080/login" method="post"
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -49,10 +52,10 @@ function Login() {
                         Login
                     </Typography>
                     <FTextField
-                        name="phoneNumber-email"
-                        label="Phone number/Email"
+                        name="email"
+                        label="Email"
                         variant="outlined"
-                        validationRules={{ required: 'Phone number/Email must not be empty' }}
+                        validationRules={{ required: 'Email must not be empty' }}
                     />
                     <FTextField
                         name="password"
@@ -75,10 +78,11 @@ function Login() {
                     </Button>
                     <Divider sx={{ my: 2 }} />
                     <Button
+                        className="google-login"
                         variant="contained"
                         color="primary"
                         sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
-                        onClick={() => { console.log('Register with Google'); }}
+                        onClick={handleGoogleLogin}
                     >
                         Login with Google
                     </Button>
@@ -92,6 +96,6 @@ function Login() {
             </Container>
         </FormProvider>
     );
-};
+}
 
 export default Login;
