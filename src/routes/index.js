@@ -29,6 +29,7 @@ import PostStaff from '../staffPages/PostStaff';
 import Error from '../pages/Error';
 import Checkout from '../pages/Checkout';
 import OrderListStaff from '../staffPages/OrderListStaff';
+import OrderStatus from '../components/OrderStatus';
 function Router() {
     return (
         <Routes >
@@ -54,6 +55,7 @@ function Router() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/post" element={<PostPage />} />
             <Route path="/checkout" element={<Checkout/>}/>
+            <Route path="/orderstatus/:orderId" element={<OrderStatus/>} />
             </Route>
             
             //admin route
