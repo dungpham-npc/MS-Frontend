@@ -61,7 +61,7 @@ const ChangePassword = () => {
                 <UserInfoCard name="Nguyen Dinh Bao" />
                 <Box sx={{ flex: 2 }}>
                     <Typography variant="h4" gutterBottom>
-                        Change Password
+                        Đổi mật khẩu
                     </Typography>
                     {loading && <Typography>Loading...</Typography>}
                     {error && <Alert severity="error">{error}</Alert>}
@@ -71,14 +71,14 @@ const ChangePassword = () => {
                             <form onSubmit={methods.handleSubmit(handleSubmit)}>
                                 <FTextField
                                     name="password"
-                                    label="Enter your current password"
+                                    label="Mật khẩu hiện tại"
                                     variant="outlined"
                                     validationRules={{ required: 'Password must not be empty' }}
                                     sx={{ mb: 2 }}  // Add margin bottom
                                 />
                                 <FTextField
                                     name="createPassword"
-                                    label="Create Password"
+                                    label="Mật khẩu mới"
                                     type="password"
                                     variant="outlined"
                                     validationRules={{ required: 'Password must not be empty' }}
@@ -86,7 +86,7 @@ const ChangePassword = () => {
                                 />
                                 <FTextField
                                     name="confirmPassword"
-                                    label="Confirm Password"
+                                    label="Xác nhận mật khẩu"
                                     type="password"
                                     variant="outlined"
                                     validationRules={{
@@ -102,7 +102,7 @@ const ChangePassword = () => {
                                     type="submit"
                                     sx={{ mt: 3 }}
                                 >
-                                    Save Changes
+                                    Lưu
                                 </Button>
                             </form>
                         </FormProvider>

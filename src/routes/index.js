@@ -34,7 +34,7 @@ function Router() {
     return (
         <Routes >
             
-            <Route path='/fill' element={<FinnishRegistration/>}/>
+            
             
             <Route path="/" element={<MainLayout />} >
                 <Route index element={<Home />} />
@@ -42,6 +42,10 @@ function Router() {
                 <Route path='editAcc'   element={<EditCustomerAccount />} />
                 <Route path='purchase'element={<PurchaseHistory/>}/>
                 <Route path='password' element={<ChangePassword/>}/>
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/post" element={<PostPage />} />
+                <Route path="/checkout" element={<Checkout/>}/>
+                <Route path="/orderstatus/:orderId" element={<OrderStatus/>} />
                 <Route path="toship" element={<OrderList/>}/>
             </Route>
             <Route element={<BlankLayout />} >
@@ -50,12 +54,10 @@ function Router() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/reset" element={<ForgotPassword />} />
                 <Route path='*' element={<Error/>}/>
+                <Route path='/fill' element={<FinnishRegistration/>}/>
             </Route>
             <Route element={<NoBubbleLayout/>}>
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/post" element={<PostPage />} />
-            <Route path="/checkout" element={<Checkout/>}/>
-            <Route path="/orderstatus/:orderId" element={<OrderStatus/>} />
+            
             </Route>
             
             //admin route

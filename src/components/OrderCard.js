@@ -14,9 +14,9 @@ const OrderCard = ({ order }) => {
         <Card onClick={handleCardClick} sx={{ mb: 2, cursor: 'pointer' }}>
             <CardContent>
                 <Typography variant="h6">{order.customerName}</Typography>
-                <Typography>Total: ${order.total}</Typography>
-                <Typography>Status: {order.status}</Typography>
-                <Typography>Address: {order.address}</Typography>
+                <Typography>Tổng cộng: ${order.total}</Typography>
+                <Typography>Tình trạng: {order.status}</Typography>
+                <Typography>Địa chỉ: {order.address}</Typography>
             </CardContent>
         </Card>
     );

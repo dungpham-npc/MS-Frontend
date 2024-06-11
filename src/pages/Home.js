@@ -81,7 +81,7 @@ function HomePage() {
     }, []);
 
     return (
-        <Container sx={{ display: "flex", minHeight: "100vh", mt: 3 }}>
+        <Container sx={{ display: "flex", minHeight: "100vh" }}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={4} md={3}>
                     <CategorySidebar />
@@ -107,33 +107,46 @@ function HomePage() {
                                     {error ? (
                                         <Alert severity="error">{error}</Alert>
                                     ) : (
-                                        <ProductList products={products} />
+                                        <>
+                                            <Box mb={2}>
+                                                <Typography variant="h4" gutterBottom noWrap>
+                                                    Trending
+                                                </Typography>
+                                            </Box>
+                                            <ProductList products={products.slice(0, 8)} />
+                                            <Box mb={2}>
+                                                <Typography variant="h4" gutterBottom noWrap>
+                                                    On Sale
+                                                </Typography>
+                                            </Box>
+                                            <ProductList products={products.slice(9, 17)} />
+                                        </>
                                     )}
                                 </>
                             )}
                         </Box>
-                        <Box marginTop={3}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                            <Typography variant="h4" gutterBottom>                          
-                                Bài viết bổ ích
-                            </Typography>
-                            <Link href="/post" underline="hover">
-                            <Typography gutterBottom>
-                                Xem thêm 
-                            </Typography>
-                        </Link>
-                        </Box>
-                        <Grid container spacing={3}>
-                            {blogs.map((blog) => (
-                                <Grid item xs={12} sm={6} md={4} key={blog.id}>
-                                    <BlogCard
-                                        image={blog.image}
-                                        title={blog.title}
-                                        description={blog.description}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
+                        <Box marginTop={3} marginBottom={10}>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                                <Typography variant="h4" gutterBottom noWrap>
+                                    Bài viết bổ ích
+                                </Typography>
+                                <Link href="/post" underline="hover">
+                                    <Typography gutterBottom>
+                                        Xem thêm
+                                    </Typography>
+                                </Link>
+                            </Box>
+                            <Grid container spacing={3} >
+                                {blogs.map((blog) => (
+                                    <Grid item xs={12} sm={6} md={4} key={blog.id}>
+                                        <BlogCard
+                                            image={blog.image}
+                                            title={blog.title}
+                                            description={blog.description}
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
                         </Box>
                     </Stack>
                 </Grid>

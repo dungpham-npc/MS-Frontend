@@ -92,7 +92,7 @@ function DetailPage() {
         <Container sx={{ my: 3 }}>
             <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 4 }}>
                 <Link underline="hover" color="inherit" component={RouterLink} to="/">
-                    CoderStore
+                    Home
                 </Link>
                 <Typography color="text.primary">{product?.name}</Typography>
             </Breadcrumbs>

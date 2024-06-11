@@ -16,10 +16,22 @@ const BlogCard = ({ image, title, description }) => {
           alt={title}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+        <Typography
+    gutterBottom
+    variant="h5"
+    component="div"
+    sx={{
+        display: { xs: 'none', sm: 'block' },
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+    }}
+>
             {title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" noWrap sx={{ display: { xs: 'none', sm: 'block' } }}>
             {description}
           </Typography>
         </CardContent>

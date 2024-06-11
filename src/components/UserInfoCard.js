@@ -15,19 +15,19 @@ const UserInfoCard = ({ name }) => {
             <Card sx={{ p: 2, border: 1, borderColor: 'grey.400' }}>
                 <List>
                     <ListItem button component={RouterLink} to="#">
-                        <ListItemText primary="Membership infor" />
+                        <ListItemText primary="Thông tin thành viên" />
                     </ListItem>
                     <ListItem button component={RouterLink} to="/purchase">
-                        <ListItemText primary="Purchase history" />
+                        <ListItemText primary="Lịch sử mua hàng" />
                     </ListItem>
                     <ListItem button component={RouterLink} to="/toship">
-                        <ListItemText primary="Purchase orders list" />
+                        <ListItemText primary="Đơn hàng" />
                     </ListItem>
                     <ListItem button component={RouterLink} to="/editAcc">
-                        <ListItemText primary="Update account" />
+                        <ListItemText primary="Thông tin cá nhân" />
                     </ListItem>
                     <ListItem button component={RouterLink} to="/password">
-                        <ListItemText primary="Change password" />
+                        <ListItemText primary="Đổi mật khẩu" />
                     </ListItem>
                 </List>
             </Card>
