@@ -44,7 +44,11 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
 }));
-
+const HeaderContainer = styled('div')(({ theme }) => ({
+    position: 'fixed',
+    width: '100%',
+    zIndex: 1100,
+  }));
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
@@ -118,6 +122,7 @@ export default function PrimarySearchAppBar() {
     );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
+    
     const renderMobileMenu = (
         <Menu
             anchorEl={mobileMoreAnchorEl}
@@ -170,7 +175,8 @@ export default function PrimarySearchAppBar() {
     );
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <HeaderContainer>
+         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -187,7 +193,7 @@ export default function PrimarySearchAppBar() {
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
                     >
-                        Milk Store
+                        Cửa hàng sửa
                     </Typography>
                     <Search>
                         <SearchIconWrapper>
@@ -198,7 +204,16 @@ export default function PrimarySearchAppBar() {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
+                    
                     <Box sx={{ flexGrow: 1 }} />
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ display: { xs: 'none', sm: 'block' } }}
+                    >
+                        Hotline: 0905123456
+                    </Typography>
                     <Box sx={{ display: { xs: 'None', md: 'flex' } }}>
                         <IconButton href="/cart" size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
@@ -235,6 +250,7 @@ export default function PrimarySearchAppBar() {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-        </Box >
+         </Box >
+         </HeaderContainer>
     );
 }

@@ -40,12 +40,11 @@ const CustomerDetailModal = ({ open, handleClose, customer }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6">Customer details</Typography>
-            <TextField label="First Name" value={customer.firstName} fullWidth margin="normal" />
-            <TextField label="Last Name" value={customer.lastName} fullWidth margin="normal" />
+            <TextField label="Name" value={customer.name} fullWidth margin="normal" />
+            
             <TextField label="Phone number" value={customer.phoneNumber} fullWidth margin="normal" />
             <TextField label="Email" value={customer.email} fullWidth margin="normal" />
-            <TextField label="Address" value={customer.address} fullWidth margin="normal" />
-            <TextField label="Date of birth" value={customer.dateOfBirth} fullWidth margin="normal" />
+           
           </Grid>
           <Grid item xs={12} container justifyContent="space-between">
             <Button variant="contained" color="primary">Save</Button>

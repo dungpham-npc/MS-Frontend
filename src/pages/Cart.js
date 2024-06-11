@@ -1,4 +1,3 @@
-// src/pages/CartPage.js
 import React, { useState } from 'react';
 import {
     Box,
@@ -7,10 +6,10 @@ import {
     CardContent,
     CardMedia,
     IconButton,
-    Stack,
     Button,
     Divider,
     Grid,
+    TextField,
 } from '@mui/material';
 import { Add, Remove, Delete } from '@mui/icons-material';
 
@@ -32,15 +31,15 @@ const CartPage = () => {
             quantity: 1,
         },
         {
-            id: '2',
-            name: 'Adidas Yeezy Boost 350',
+            id: '3',
+            name: 'Sample 3',
             cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
             price: 200,
             quantity: 1,
         },
         {
-            id: '2',
-            name: 'Adidas Yeezy Boost 350',
+            id: '4',
+            name: 'Sample 4',
             cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
             price: 200,
             quantity: 1,
@@ -67,6 +66,25 @@ const CartPage = () => {
         );
     };
 
+    const handleQuantityChange = (id, event) => {
+        const value = event.target.value;
+        if (value === '' || parseInt(value) > 0) {
+            setCartItems((prevItems) =>
+                prevItems.map((item) =>
+                    item.id === id ? { ...item, quantity: value === '' ? item.quantity : parseInt(value) } : item
+                )
+            );
+        }
+    };
+
+    const handleBlur = (id) => {
+        setCartItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === id && item.quantity === '' ? { ...item, quantity: initialCartItems.find(i => i.id === id).quantity } : item
+            )
+        );
+    };
+
     const handleRemoveItem = (id) => {
         setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
     };
@@ -78,7 +96,7 @@ const CartPage = () => {
     return (
         <Box sx={{ padding: 3 }}>
             <Typography variant="h4" gutterBottom>
-                Shopping Cart
+                Giỏ hàng 
             </Typography>
             {cartItems.length === 0 ? (
                 <Typography variant="h6">Your cart is empty</Typography>
@@ -106,7 +124,18 @@ const CartPage = () => {
                                         <IconButton onClick={() => handleDecreaseQuantity(item.id)} disabled={item.quantity <= 1}>
                                             <Remove />
                                         </IconButton>
-                                        <Typography>{item.quantity}</Typography>
+                                        <TextField
+                                            type="number"
+                                            value={item.quantity}
+                                            onChange={(event) => handleQuantityChange(item.id, event)}
+                                            onBlur={() => handleBlur(item.id)}
+                                            inputProps={{
+                                                min: 1,
+                                                max: 99,
+                                                style: { textAlign: 'center' },
+                                            }}
+                                            sx={{ width: 60 }}
+                                        />
                                         <IconButton onClick={() => handleIncreaseQuantity(item.id)}>
                                             <Add />
                                         </IconButton>
@@ -124,10 +153,10 @@ const CartPage = () => {
                                 Summary
                             </Typography>
                             <Divider sx={{ mb: 2 }} />
-                            <Typography variant="subtitle1">Total Items: {cartItems.reduce((acc, item) => acc + item.quantity, 0)}</Typography>
-                            <Typography variant="subtitle1">Total Price: ${getTotalPrice()}</Typography>
+                            <Typography variant="subtitle1">Tổng sản phẩm: {cartItems.reduce((acc, item) => acc + item.quantity, 0)}</Typography>
+                            <Typography variant="subtitle1">Tổng tiền: ${getTotalPrice()}</Typography>
                             <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                                Proceed to Checkout
+                                Thanh toán
                             </Button>
                         </Box>
                     </Grid>

@@ -7,7 +7,7 @@ function WelcomeAdmin() {
       <Paper sx={{ p: 4 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography component="h1" variant="h4" color="inherit" gutterBottom>
-            Welcome to the Admin Dashboard
+            Welcome Hữu Hiền 
           </Typography>
           <Typography component="p" variant="body1" color="inherit">
             Here you can manage your site settings, view reports, and more.

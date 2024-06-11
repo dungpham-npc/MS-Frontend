@@ -27,7 +27,16 @@ const products = [
     desc: 'License',
     price: '$49.99',
   },
-  
+  {
+    name: 'Landing page template',
+    desc: 'License',
+    price: '$49.99',
+  },
+  {
+    name: 'Landing page template',
+    desc: 'License',
+    price: '$49.99',
+  },
   
   
   

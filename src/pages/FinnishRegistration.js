@@ -1,30 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useForm, FormProvider } from 'react-hook-form';
+import { TextField, Button, Container, Typography, Box, Link, Divider } from '@mui/material';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { useLocation } from "react-router-dom";
+import FTextField from '../components/form/FTextField';
+import "../App.css";
+
+const schema = yup.object().shape({
+  username: yup.string().required('Username must not be empty'),
+  phoneNumber: yup.string().required('Phone number must not be empty'),
+  password: yup.string().required('Password must not be empty'),
+});
 
 const FinishRegistration = () => {
   const location = useLocation();
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
 
-  const getQueryParams = (search) => {
-    const params = new URLSearchParams(search);
-    return {
-      email: params.get("email"),
-      username: params.get("username"),
-    };
-  };
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setEmail(params.get("email"));
+  }, [location]);
 
-  const { email} = getQueryParams(location.search);
+  const methods = useForm({
+    resolver: yupResolver(schema),
+    mode: 'onChange'
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     const formData = new URLSearchParams();
     formData.append("emailAddress", email);
-    formData.append("username", username);
-    formData.append("phoneNumber", phoneNumber);
-    formData.append("password", password);
-   
+    formData.append("username", data.username);
+    formData.append("phoneNumber", data.phoneNumber);
+    formData.append("password", data.password);
 
     try {
       const response = await fetch("http://localhost:8080/register/complete-registration", {
@@ -48,35 +56,60 @@ const FinishRegistration = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Email:
-            <input type="email" name="emailAddress" value={email || ""} readOnly />
-          </label>
-        </div>
-        <div>
-          <label>
-            Username:
-            <input type="text" name="username" value={username} onChange={(e)=> setUsername(e.target.value)}  />
-          </label>
-        </div>
-        <div>
-          <label>
-            Phone Number:
-            <input type="text" name="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-          </label>
-        </div>
-        <div>
-          <label>
-            Password:
-            <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </label>
-        </div>
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
+    <FormProvider {...methods}>
+      <Container maxWidth="sm">
+        <Box
+          component="form"
+          onSubmit={methods.handleSubmit(onSubmit)}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            mt: 5,
+            padding: 3,
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <Typography variant="h4" component="h1" gutterBottom>
+            Finish Registration
+          </Typography>
+          <FTextField
+            name="email"
+            label="Email"
+            variant="outlined"
+            value={email || ""}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <FTextField
+            name="username"
+            label="Username"
+            variant="outlined"
+          />
+          <FTextField
+            name="phoneNumber"
+            label="Phone Number"
+            variant="outlined"
+          />
+          <FTextField
+            name="password"
+            label="Password"
+            type="password"
+            variant="outlined"
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
+          >
+            Submit
+          </Button>
+        </Box>
+      </Container>
+    </FormProvider>
   );
 };
 

@@ -1,6 +1,5 @@
-// AddStaffModal.js
 import React, { useState } from 'react';
-import { Modal, Box, Typography, TextField, Button, Grid } from '@mui/material';
+import { Modal, Box, Typography, TextField, Button, Grid, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import styled from '@emotion/styled';
 
 const style = {
@@ -47,29 +46,35 @@ const AddStaffModal = ({ open, handleClose, handleAddStaff }) => {
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <Typography variant="h6" gutterBottom>
-          Add staff
+          Add Staff
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField label="First name" name="firstName" value={newStaff.firstName} onChange={handleChange} fullWidth />
+            <TextField label="Name" name="username" value={newStaff.firstName} onChange={handleChange} fullWidth />
           </Grid>
-          <Grid item xs={6}>
-            <TextField label="Last name" name="lastName" value={newStaff.lastName} onChange={handleChange} fullWidth />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField label="Date of birth" name="dateOfBirth" value={newStaff.dateOfBirth} onChange={handleChange} fullWidth />
-          </Grid>
+          
           <Grid item xs={12}>
-            <TextField label="Address" name="address" value={newStaff.address} onChange={handleChange} fullWidth />
-          </Grid>
-          <Grid item xs={6}>
             <TextField label="Email" name="email" value={newStaff.email} onChange={handleChange} fullWidth />
           </Grid>
           <Grid item xs={6}>
-            <TextField label="Phone number" name="phoneNumber" value={newStaff.phoneNumber} onChange={handleChange} fullWidth />
+            <TextField label="Password" name="password" value={newStaff.password} onChange={handleChange} fullWidth />
           </Grid>
+          
           <Grid item xs={12}>
-            <TextField label="Role" name="role" value={newStaff.role} onChange={handleChange} fullWidth />
+            <FormControl fullWidth>
+              <InputLabel id="role-label">Role</InputLabel>
+              <Select
+                labelId="role-label"
+                label="Role"
+                name="role"
+                value={newStaff.role}
+                onChange={handleChange}
+              >
+                <MenuItem value="manager">Manager</MenuItem>
+                <MenuItem value="post_staff">Post Staff</MenuItem>
+                <MenuItem value="product_staff">Product Staff</MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12} container justifyContent="space-between">
             <AddButton onClick={handleSubmit}>Add</AddButton>

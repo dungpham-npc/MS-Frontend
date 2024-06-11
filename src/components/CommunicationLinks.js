@@ -19,8 +19,8 @@ const CircleButton = styled(IconButton)(({ theme }) => ({
 
 const CommunicationContainer = styled('div')(({ theme }) => ({
     position: 'fixed',
-    top: '50%',
-    left: 16,
+    bottom: 30,
+    right: 16,
     transform: 'translateY(-50%)',
     zIndex: 1000,
 }));

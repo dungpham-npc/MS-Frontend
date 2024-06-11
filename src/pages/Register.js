@@ -49,8 +49,8 @@ function Register() {
                         Register
                     </Typography>
                     <FTextField
-                        name="phoneNumber"
-                        label="Phone Number"
+                        name="email"
+                        label="Email"
                         variant="outlined"
                         validationRules={{ required: 'Phone Number must not be empty' }}
                     />
