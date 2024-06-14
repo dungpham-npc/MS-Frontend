@@ -7,10 +7,12 @@ import FTextField from '../components/form/FTextField';
 import "../App.css";
 
 const schema = yup.object().shape({
-    email: yup.string().required('Email không được để trống').email('Email không hợp lệ'),
+    otp: yup.string()
+        .required('OTP không được để trống')
+        .matches(/^\d{6}$/, 'OTP phải gồm 6 chữ số'),
 });
 
-function ForgotPassword() {
+function OTP() {
     const methods = useForm({
         resolver: yupResolver(schema),
         mode: 'onChange'
@@ -18,6 +20,7 @@ function ForgotPassword() {
 
     const onSubmit = (data) => {
         console.log(data);
+        // Handle OTP verification logic here
     };
 
     return (
@@ -38,23 +41,22 @@ function ForgotPassword() {
                     }}
                 >
                     <Typography variant="h4" component="h1" gutterBottom>
-                        Bạn quên mật khẩu?
+                        Xác thực OTP
                     </Typography>
                     <Typography variant="h6" component="h1" gutterBottom>
-                        Hãy nhập địa chỉ email trước đó bạn dùng để đăng ký
+                        Vui lòng nhập mã OTP bạn nhận được qua email
                     </Typography>
                     <FTextField
-                        name="email"
-                        label="Email"
+                        name="otp"
+                        label="Mã OTP"
                         variant="outlined"
-                        
                     />
                     <Button
                         type="submit"
                         variant="contained"
                         sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
-                        Send Email
+                        Xác thực
                     </Button>
                 </Box>
             </Container>
@@ -62,4 +64,4 @@ function ForgotPassword() {
     );
 }
 
-export default ForgotPassword;
+export default OTP;

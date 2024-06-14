@@ -114,9 +114,9 @@ export default function PrimarySearchAppBar() {
             // onClose={handleMenuClose}
             onClick={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMyAcc}>My account</MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            
+            <MenuItem onClick={handleMyAcc}>Tài khoản của tôi</MenuItem>
+            <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
 
         </Menu>
     );
@@ -159,18 +159,7 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
+            
         </Menu>
     );
 
@@ -200,7 +189,7 @@ export default function PrimarySearchAppBar() {
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
-                            placeholder="Search…"
+                            placeholder="Tìm sản phẩm…"
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>

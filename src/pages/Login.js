@@ -7,8 +7,8 @@ import FTextField from '../components/form/FTextField';
 import "../App.css";
 
 const schema = yup.object().shape({
-    email: yup.string().required('Phone number/Email must not be empty').email('Must be a valid email'),
-    password: yup.string().required('Password must not be empty')
+    email: yup.string().required('Email không được để trống').email('Email không hợp lệ'),
+    password: yup.string().required('Mật khẩu không được để trống')
 });
 
 function Login() {
@@ -49,24 +49,24 @@ function Login() {
                     }}
                 >
                     <Typography variant="h4" component="h1" gutterBottom>
-                        Login
+                        Đăng nhập
                     </Typography>
                     <FTextField
                         name="email"
                         label="Email"
                         variant="outlined"
-                        validationRules={{ required: 'Email must not be empty' }}
+                        
                     />
                     <FTextField
                         name="password"
-                        label="Password"
+                        label="Mật khẩu"
                         type="password"
                         variant="outlined"
-                        validationRules={{ required: 'Password must not be empty' }}
+                        
                     />
                     <Typography underline="none" sx={{ alignSelf: 'flex-end', mb: 2 }}>
                         <Link href="/reset" underline='hover'>
-                            Forgot Password?
+                            Quên mật khẩu?
                         </Link>
                     </Typography>
                     <Button
@@ -74,7 +74,7 @@ function Login() {
                         variant="contained"
                         sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
-                        Login
+                        Đăng nhập
                     </Button>
                     <Divider sx={{ my: 2 }} />
                     <Button
@@ -84,12 +84,12 @@ function Login() {
                         sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
                         onClick={handleGoogleLogin}
                     >
-                        Login with Google
+                        Đăng nhập bằng Google
                     </Button>
                     <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
-                        Don't have an account?{' '}
+                        Chưa có tài khoản?{' '}
                         <Link href="/register" underline="hover">
-                            Register
+                            Đăng ký
                         </Link>
                     </Typography>
                 </Box>

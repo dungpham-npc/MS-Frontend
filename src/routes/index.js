@@ -30,6 +30,9 @@ import Error from '../pages/Error';
 import Checkout from '../pages/Checkout';
 import OrderListStaff from '../staffPages/OrderListStaff';
 import OrderStatus from '../components/OrderStatus';
+import ProductForm from '../staffPages/ProductForm';
+import OTP from '../pages/OTP';
+import AddStaff from '../adminPages/CreateStaff';
 function Router() {
     return (
         <Routes >
@@ -55,6 +58,7 @@ function Router() {
                 <Route path="/reset" element={<ForgotPassword />} />
                 <Route path='*' element={<Error/>}/>
                 <Route path='/fill' element={<FinnishRegistration/>}/>
+                <Route path="/otp" element={<OTP/>}/>
             </Route>
             <Route element={<NoBubbleLayout/>}>
             
@@ -67,11 +71,14 @@ function Router() {
         <Route path="dashboard" element={<DashboardPage/>}/>
         <Route path="staff" element={<StaffManagement/>}/>
         <Route path="customer" element={<CustomerManagement/>}/>
+        <Route path="newStaff" element={<AddStaff/>}/>
       </Route>
       //staff route
       <Route path='staff' element={<StaffLayout/>}>
         <Route index element={<WelcomeStaff/>}/>
         <Route path='product' element={<StaffProductList/>}/>
+        <Route path='product/new' element={<ProductForm/>}/>
+        <Route path='product/edit/:id' element={<ProductForm/>}/>
         <Route path='customer' element={<CustomerManagement/>}/>
         <Route path='post' element={<PostStaff/>}/>
         <Route path='order' element={<OrderListStaff/>}/>

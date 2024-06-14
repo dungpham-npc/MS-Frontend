@@ -1,7 +1,15 @@
 // StaffDetailModal.js
 import React from 'react';
-import { Modal, Box, Typography, TextField, Button, Avatar, Grid } from '@mui/material';
+import { Modal, Box, Typography,  Button, Avatar, Grid,  FormControl, Select, MenuItem, InputLabel } from '@mui/material';
 import styled from '@emotion/styled';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FormProvider, useForm } from 'react-hook-form';
+import FTextField from './form/FTextField';
+import * as yup from 'yup';
+import { Schema } from '../components/validation/validationSchema';
+
+
+
 
 const style = {
   position: 'absolute',
@@ -24,9 +32,23 @@ const ProfilePicture = styled(Avatar)`
 `;
 
 const StaffDetailModal = ({ open, handleClose, staff }) => {
+  const methods = useForm({
+    resolver: yupResolver(Schema),
+    mode: 'onChange',
+    
+  });
+
   if (!staff) return null;
 
+  const { handleSubmit} = methods;
+
+  const onSubmit = (data) => {
+    console.log(data);
+    handleClose(); // Close the modal after saving
+  };
   return (
+    <FormProvider{...methods}>
+    <form onSubmit={handleSubmit(onSubmit)}>
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <Grid container spacing={2}>
@@ -41,20 +63,34 @@ const StaffDetailModal = ({ open, handleClose, staff }) => {
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h6">Employee details</Typography>
-            <TextField label="First Name" value={staff.firstName} fullWidth margin="normal" />
-            <TextField label="Last Name" value={staff.lastName} fullWidth margin="normal" />
-            <TextField label="Phone number" value={staff.phoneNumber} fullWidth margin="normal" />
-            <TextField label="Email" value={staff.email} fullWidth margin="normal" />
-            <TextField label="Address" value={staff.address} fullWidth margin="normal" />
-            <TextField label="Date of birth" value={staff.dateOfBirth} fullWidth margin="normal" />
+            <FTextField label="Name" defaultValue={staff.name} fullWidth name="name" margin="normal" />
+            <FTextField label="Phone number" type='tel' defaultValue={staff.phoneNumber} name="phoneNumber" fullWidth margin="normal" />
+            <FTextField label="Email" defaultValue={staff.email} fullWidth name="email" margin="normal" />
+            <FormControl fullWidth margin="normal">
+                <InputLabel id="role-label">Role</InputLabel>
+                <Select
+                  labelId="role-label"
+                  label="Role"
+                  defaultValue={staff.role}
+                  name= "Role"
+                  
+                >
+                  <MenuItem value="SELLER">Seller</MenuItem>
+                  <MenuItem value="MANAGER">Manager</MenuItem>
+                  <MenuItem value="POST_STAFF">Post Staff</MenuItem>
+                  <MenuItem value="PRODUCT_STAFF">Product Staff</MenuItem>
+                </Select>
+              </FormControl>
           </Grid>
           <Grid item xs={12} container justifyContent="space-between">
-            <Button variant="contained" color="primary">Save</Button>
+            <Button type="submit" variant="contained" color="primary">Save</Button>
             <Button variant="outlined" onClick={handleClose}>Cancel</Button>
           </Grid>
         </Grid>
       </Box>
     </Modal>
+    </form>
+    </FormProvider>
   );
 };
 
