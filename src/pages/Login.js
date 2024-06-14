@@ -5,11 +5,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import FTextField from '../components/form/FTextField';
 import "../App.css";
+import { Schema } from '../components/validation/validationSchema';
 
-const schema = yup.object().shape({
-    email: yup.string().required('Email không được để trống').email('Email không hợp lệ'),
-    password: yup.string().required('Mật khẩu không được để trống')
-});
+// const schema = yup.object().shape({
+//     email: yup.string().required('Email không được để trống').email('Email không hợp lệ'),
+//     password: yup.string().required('Mật khẩu không được để trống')
+// });
 
 function Login() {
     const [isLogin, setIsLogin] = useState(true);
@@ -23,7 +24,7 @@ function Login() {
     };
 
     const methods = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(Schema),
         mode: 'onChange'
     });
 

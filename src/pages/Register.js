@@ -2,21 +2,21 @@ import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TextField, Divider, Button, Container, Typography, Box, Link } from '@mui/material';
-import * as Yup from 'yup';
 import "../App.css";
 import FTextField from '../components/form/FTextField';
+import { Schema } from '../components/validation/validationSchema';
 
-const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
-    createPassword: Yup.string().required('Mật khẩu không được để trống'),
-    confirmPassword: Yup.string()
-        .oneOf([Yup.ref('createPassword'), null], 'Mật khẩu không khớp')
-        .required('Mật khẩu không được để trống'),
-});
+// const validationSchema = Yup.object().shape({
+//     email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
+//     createPassword: Yup.string().required('Mật khẩu không được để trống'),
+//     confirmPassword: Yup.string()
+//         .oneOf([Yup.ref('createPassword'), null], 'Mật khẩu không khớp')
+//         .required('Mật khẩu không được để trống'),
+// });
 
 function Register() {
     const methods = useForm({
-        resolver: yupResolver(validationSchema),
+        resolver: yupResolver(Schema),
         mode: 'onChange' // Validate on change
     });
 

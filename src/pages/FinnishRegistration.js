@@ -6,12 +6,8 @@ import * as yup from 'yup';
 import { useLocation } from "react-router-dom";
 import FTextField from '../components/form/FTextField';
 import "../App.css";
+import { Schema } from "../components/validation/validationSchema";
 
-const schema = yup.object().shape({
-  username: yup.string().required('Username must not be empty'),
-  phoneNumber: yup.string().required('Số điện thoại không được để trống'),
-  password: yup.string().required('Mật khẩu không được để trống'),
-});
 
 const FinishRegistration = () => {
   const location = useLocation();
@@ -23,7 +19,7 @@ const FinishRegistration = () => {
   }, [location]);
 
   const methods = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(Schema),
     mode: 'onChange'
   });
 
