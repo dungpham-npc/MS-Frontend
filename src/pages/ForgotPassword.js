@@ -5,14 +5,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import FTextField from '../components/form/FTextField';
 import "../App.css";
+import { Schema } from '../components/validation/validationSchema';
 
-const schema = yup.object().shape({
-    email: yup.string().required('Email không được để trống').email('Email không hợp lệ'),
-});
+
 
 function ForgotPassword() {
     const methods = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(Schema),
         mode: 'onChange'
     });
 
@@ -54,7 +53,7 @@ function ForgotPassword() {
                         variant="contained"
                         sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
-                        Send Email
+                        Đặt lại mật khẩu
                     </Button>
                 </Box>
             </Container>
