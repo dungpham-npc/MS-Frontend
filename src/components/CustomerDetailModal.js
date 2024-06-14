@@ -47,7 +47,7 @@ const CustomerDetailModal = ({ open, handleClose, customer }) => {
            
           </Grid>
           <Grid item xs={12} container justifyContent="space-between">
-            <Button variant="contained" color="primary">Save</Button>
+          
             <Button variant="outlined" onClick={handleClose}>Cancel</Button>
           </Grid>
         </Grid>

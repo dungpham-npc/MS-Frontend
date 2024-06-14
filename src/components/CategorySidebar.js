@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem, ListItemText, Collapse } from '@mui/material';
+import { List, ListItem, ListItemText, Collapse, styled } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const categories = [
@@ -23,6 +23,11 @@ const categories = [
 
 function CategorySidebar() {
     const [open, setOpen] = React.useState({});
+    const SidebardContainer = styled('div')(({ theme }) => ({
+        position: 'fixed',
+        width: '15%',
+        zIndex: 1100,
+      }));
 
     const handleClick = (category) => {
         setOpen((prevOpen) => ({
@@ -32,7 +37,8 @@ function CategorySidebar() {
     };
 
     return (
-        <List component="nav">
+        <SidebardContainer>
+        <List component="nav" >
             {categories.map((category) => (
                 <div key={category.name}>
                     <ListItem button onClick={() => handleClick(category.name)}>
@@ -51,6 +57,7 @@ function CategorySidebar() {
                 </div>
             ))}
         </List>
+        </SidebardContainer>
     );
 }
 

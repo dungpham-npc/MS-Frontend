@@ -9,8 +9,8 @@ import "../App.css";
 
 const schema = yup.object().shape({
   username: yup.string().required('Username must not be empty'),
-  phoneNumber: yup.string().required('Phone number must not be empty'),
-  password: yup.string().required('Password must not be empty'),
+  phoneNumber: yup.string().required('Số điện thoại không được để trống'),
+  password: yup.string().required('Mật khẩu không được để trống'),
 });
 
 const FinishRegistration = () => {
@@ -73,7 +73,7 @@ const FinishRegistration = () => {
           }}
         >
           <Typography variant="h4" component="h1" gutterBottom>
-            Finish Registration
+            Hoàn thành đăng ký
           </Typography>
           <FTextField
             name="email"
@@ -91,12 +91,12 @@ const FinishRegistration = () => {
           />
           <FTextField
             name="phoneNumber"
-            label="Phone Number"
+            label="Số điện thoại"
             variant="outlined"
           />
           <FTextField
             name="password"
-            label="Password"
+            label="Mật khẩu"
             type="password"
             variant="outlined"
           />
@@ -105,7 +105,7 @@ const FinishRegistration = () => {
             variant="contained"
             sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
           >
-            Submit
+            Gửi
           </Button>
         </Box>
       </Container>

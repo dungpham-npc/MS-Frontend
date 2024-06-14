@@ -14,7 +14,6 @@ import {
 import { Add, Remove, Delete } from '@mui/icons-material';
 
 const CartPage = () => {
-    // Sample cart data for demonstration
     const initialCartItems = [
         {
             id: '1',
@@ -68,21 +67,13 @@ const CartPage = () => {
 
     const handleQuantityChange = (id, event) => {
         const value = event.target.value;
-        if (value === '' || parseInt(value) > 0) {
+        if (value === '' || (parseInt(value) > 0 && parseInt(value) <= 99)) {
             setCartItems((prevItems) =>
                 prevItems.map((item) =>
-                    item.id === id ? { ...item, quantity: value === '' ? item.quantity : parseInt(value) } : item
+                    item.id === id ? { ...item, quantity: value === '' ? '' : parseInt(value) } : item
                 )
             );
         }
-    };
-
-    const handleBlur = (id) => {
-        setCartItems((prevItems) =>
-            prevItems.map((item) =>
-                item.id === id && item.quantity === '' ? { ...item, quantity: initialCartItems.find(i => i.id === id).quantity } : item
-            )
-        );
     };
 
     const handleRemoveItem = (id) => {
@@ -128,7 +119,6 @@ const CartPage = () => {
                                             type="number"
                                             value={item.quantity}
                                             onChange={(event) => handleQuantityChange(item.id, event)}
-                                            onBlur={() => handleBlur(item.id)}
                                             inputProps={{
                                                 min: 1,
                                                 max: 99,
@@ -150,7 +140,7 @@ const CartPage = () => {
                     <Grid item xs={12} md={4}>
                         <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
                             <Typography variant="h6" gutterBottom>
-                                Summary
+                                Tổng kết
                             </Typography>
                             <Divider sx={{ mb: 2 }} />
                             <Typography variant="subtitle1">Tổng sản phẩm: {cartItems.reduce((acc, item) => acc + item.quantity, 0)}</Typography>

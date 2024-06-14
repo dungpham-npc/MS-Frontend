@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { TextField, Divider, Button, Container, Typography, Box, Link } from '@mui/material';
+import * as Yup from 'yup';
 import "../App.css";
 import FTextField from '../components/form/FTextField';
-function Register() {
-    // const [username, setUsername] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [errors, setErrors] = useState({});
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const validationErrors = {};
-    //     if (!username) {
-    //         validationErrors.username = 'Field cannot be blank';
-    //     }
-    //     if (!password) {
-    //         validationErrors.password = 'Field cannot be blank';
-    //     }
-    //     setErrors(validationErrors);
-    //     if (Object.keys(validationErrors).length === 0) {
-    //         // Proceed with form submission
-    //         console.log('Form submitted');
-    //     }
-    // };
-    const methods = useForm();
+const validationSchema = Yup.object().shape({
+    email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
+    createPassword: Yup.string().required('Mật khẩu không được để trống'),
+    confirmPassword: Yup.string()
+        .oneOf([Yup.ref('createPassword'), null], 'Mật khẩu không khớp')
+        .required('Mật khẩu không được để trống'),
+});
+
+function Register() {
+    const methods = useForm({
+        resolver: yupResolver(validationSchema),
+        mode: 'onChange' // Validate on change
+    });
 
     const onSubmit = (data) => {
         console.log(data);
     };
+
     return (
         <FormProvider {...methods}>
             <Container maxWidth="sm">
@@ -46,31 +42,24 @@ function Register() {
                     }}
                 >
                     <Typography variant="h4" component="h1" gutterBottom>
-                        Register
+                        Đăng ký
                     </Typography>
                     <FTextField
                         name="email"
                         label="Email"
                         variant="outlined"
-                        validationRules={{ required: 'Phone Number must not be empty' }}
                     />
                     <FTextField
                         name="createPassword"
-                        label="Create Password"
+                        label="Nhập mật khẩu"
                         type="password"
                         variant="outlined"
-                        validationRules={{ required: 'Password must not be empty' }}
                     />
                     <FTextField
                         name="confirmPassword"
-                        label="Confirm Password"
+                        label="Nhập lại khẩu"
                         type="password"
                         variant="outlined"
-                        validationRules={{
-                            required: 'Password must not be empty',
-                            validate: (value) =>
-                                value === methods.watch('createPassword') || 'Passwords do not match',
-                        }}
                     />
 
                     <Button
@@ -78,12 +67,12 @@ function Register() {
                         variant="contained"
                         sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
-                        Sign Up
+                        Tạo tài khoản
                     </Button>
                     <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
-                        Already have an account?{' '}
+                        Đã có tài khoản?{' '}
                         <Link href="/login" underline="hover">
-                            Login
+                            Đăng nhập
                         </Link>
                     </Typography>
                     <Divider sx={{ my: 2 }} />
@@ -94,14 +83,12 @@ function Register() {
                         sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
                         onClick={() => { console.log('Login with Google'); }}
                     >
-                        Login with Google
+                        Đăng nhập bằng google 
                     </Button>
-
-                    
                 </Box>
             </Container>
         </FormProvider>
     );
-};
+}
 
 export default Register;
