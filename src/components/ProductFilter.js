@@ -10,27 +10,27 @@ export const SORT_BY_OPTIONS = [
   { value: "priceAsc", label: "Price: Low-High" },
 ];
 
-export const FILTER_GENDER_OPTIONS = ["Men", "Women", "Kids"];
+export const FILTER_GENDER_OPTIONS = [ "Mẹ", "Bé"];
 
 export const FILTER_CATEGORY_OPTIONS = [
   "All",
-  "Shose",
+  "Baby Nutrion",
   "Apparel",
   "Accessories",
 ];
 
 export const FILTER_PRICE_OPTIONS = [
-  { value: "below", label: "Below $25" },
-  { value: "between", label: "Between $25 - $75" },
-  { value: "above", label: "Above $75" },
+  { value: "below", label: "Dưới 25" },
+  { value: "between", label: "Từ 25 -75" },
+  { value: "above", label: "Trên 75" },
 ];
 
 function ProductFilter({ resetFilter }) {
   return (
-    <Stack spacing={2} sx={{ p: 3, width: 250 , mt: 20}}>
+    <Stack spacing={2} sx={{ p: 3, width: 250 , mt: 10}}>
       <Stack spacing={1}>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          Gender
+          Dành cho
         </Typography>
         <FMultiCheckbox
           name="gender"
@@ -38,17 +38,18 @@ function ProductFilter({ resetFilter }) {
           sx={{ width: 1 }}
         />
       </Stack>
-
       <Stack spacing={1}>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          Category
+          Price
         </Typography>
         <FRadioGroup
-          name="category"
-          options={FILTER_CATEGORY_OPTIONS}
-          row={false}
+          name="priceRange"
+          options={FILTER_PRICE_OPTIONS.map((item) => item.value)}
+          getOptionLabel={FILTER_PRICE_OPTIONS.map((item) => item.label)}
         />
       </Stack>
+
+      
 
      
 
@@ -61,7 +62,7 @@ function ProductFilter({ resetFilter }) {
           onClick={resetFilter}
           startIcon={<ClearAllIcon />}
         >
-          Clear All
+          Xóa bộ lọc
         </Button>
       </Box>
     </Stack>

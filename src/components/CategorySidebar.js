@@ -4,21 +4,14 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 const categories = [
     {
-        name: 'Category 1',
+        name: 'Sữa bột',
         subcategories: ['Subcategory 1.1', 'Subcategory 1.2'],
     },
     {
-        name: 'Category 2',
+        name: 'Sữa pha sẵn',
         subcategories: ['Subcategory 2.1', 'Subcategory 2.2'],
     },
-    {
-        name: 'Category 3',
-        subcategories: ['Subcategory 3.1', 'Subcategory 3.2'],
-    },
-    {
-        name: 'Category 4',
-        subcategories: ['Subcategory 4.1', 'Subcategory 4.2'],
-    },
+    
 ];
 
 function CategorySidebar() {

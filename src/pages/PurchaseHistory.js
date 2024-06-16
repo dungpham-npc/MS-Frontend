@@ -92,29 +92,29 @@ const PurchaseHistory = () => {
     const purchaseHistory = [
         {
             id: '1',
-            name: 'Nike Air Force 1 NDESTRUKT',
-            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_1.jpg',
+            name: 'Infant Premium Formula Milk',
+            cover: 'https://i5.walmartimages.com/seo/Similac-Advance-Powder-Baby-Formula-with-Iron-DHA-Lutein-30-8-oz-Value-Can-Pack-of-6_3c13c855-1316-489a-8ba1-974cb3d872e2.f2f86fb9680f97519f892e4bc33d5cbe.jpeg',
             price: 16.19,
             date: '2024-04-21',
         },
         {
             id: '2',
-            name: 'Adidas Yeezy Boost 350',
-            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
+            name: 'Infant Premium Formula Milk',
+            cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRysB1XXHpSo_JCfp6lQygryljYR7T54SHGwQ&s',
             price: 200,
             date: '2024-03-15',
         },
         {
             id: '3',
-            name: 'Adidas Yeezy Boost 350',
-            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
+            name: 'Infant Premium Formula Milk',
+            cover: 'https://www.alphamega.com.cy/Admin/Public/GetImage.ashx?Width=800&Height=800&Crop=5&DoNotUpscale=True&FillCanvas=True&Image=/Files/Images/Ecom/Products/784233.jpg&AlternativeImage=/Images/missing_image.jpg',
             price: 200,
             date: '2024-03-15',
         },
         {
             id: '4',
-            name: 'Adidas Yeezy Boost 350',
-            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
+            name: 'Infant Premium Formula Milk',
+            cover: 'https://www.uyyaala.com/cdn/shop/products/IMG_9318.jpg?v=1660654060',
             price: 200,
             date: '2024-03-15',
         },
@@ -130,15 +130,15 @@ const PurchaseHistory = () => {
                 <UserInfoCard name="Nguyen Dinh Bao" />
                 <Box sx={{ flex: 2, ml: 2 }}>
                     <Typography variant="h4" gutterBottom>
-                        My Purchases
+                        Lịch sử mua hàng
                     </Typography>
                     
                     {purchaseHistory.length === 0 ? (
                         <Typography variant="h6">You have no purchase history</Typography>
                     ) : (
-                        <Box>
+                        <Box >
                             {purchaseHistory.map((purchase) => (
-                                <Card key={purchase.id} sx={{ display: 'flex', mb: 2 }}>
+                                <Card key={purchase.id} sx={{ display: 'flex', mb: 2, border: '2px solid #cb8bcd' }}>
                                     <CardMedia
                                         component="img"
                                         sx={{ width: 151 }}
@@ -154,7 +154,7 @@ const PurchaseHistory = () => {
                                                 ${purchase.price}
                                             </Typography>
                                             <Typography variant="subtitle2" color="text.secondary" component="div">
-                                                Purchased on: {purchase.date}
+                                                Mua ngày: {purchase.date}
                                             </Typography>
                                         </CardContent>
                                     </Box>

@@ -49,7 +49,7 @@ export default function PostStaff() {
             "id": 4,
             "image": "https://via.placeholder.com/150",
             "title": "Dinh dưỡng cho bà bầu trong 3 tháng đầu tiên",
-            "description": "Essential nutrition tips for pregnant women in their first trimester."
+            "description": "Essential nutrition tips for pregnant woin their first trimester."
           },
           {
             "id": 5,

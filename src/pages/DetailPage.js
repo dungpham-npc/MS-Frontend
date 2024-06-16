@@ -342,6 +342,7 @@ function DetailPage() {
 
     const handleBuyNow = () => {
         // Logic for buying now
+        
         console.log("Buy now:", { product, quantity });
     };
 

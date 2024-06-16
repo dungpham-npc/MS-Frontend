@@ -62,6 +62,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
+const AppBarStyled = styled(AppBar)(({ theme }) => ({
+    background: 'linear-gradient(90deg, rgba(255,255,255,1) 6%, rgba(243,198,247,1) 27%, rgba(239,171,245,1) 62%)',
+  }));
 
 export default function PrimarySearchAppBar() {
     const navigate = useNavigate();
@@ -166,7 +169,7 @@ export default function PrimarySearchAppBar() {
     return (
         <HeaderContainer>
          <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBarStyled position="static">
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -177,12 +180,16 @@ export default function PrimarySearchAppBar() {
                         <Logo />
                     </IconButton>
                     <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    fontFamily: 'Montserrat, Arial, sans-serif',
+                    color: '#673AB7',
+                    }}
                     >
-                        Cửa hàng sửa
+                    Cửa hàng sữa
                     </Typography>
                     <Search>
                         <SearchIconWrapper>
@@ -236,7 +243,7 @@ export default function PrimarySearchAppBar() {
                         </IconButton>
                     </Box>
                 </Toolbar>
-            </AppBar>
+            </AppBarStyled>
             {renderMobileMenu}
             {renderMenu}
          </Box >

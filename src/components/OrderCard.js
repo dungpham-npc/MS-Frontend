@@ -11,7 +11,7 @@ const OrderCard = ({ order }) => {
     };
 
     return (
-        <Card onClick={handleCardClick} sx={{ mb: 2, cursor: 'pointer' }}>
+        <Card onClick={handleCardClick} sx={{ mb: 2, cursor: 'pointer', border: '2px solid #cb8bcd' }}>
             <CardContent>
                 <Typography variant="h6">{order.customerName}</Typography>
                 <Typography>Tổng cộng: ${order.total}</Typography>
