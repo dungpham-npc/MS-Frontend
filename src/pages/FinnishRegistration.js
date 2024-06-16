@@ -99,7 +99,7 @@ const FinishRegistration = () => {
           <Button
             type="submit"
             variant="contained"
-            sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
+            sx={{ backgroundColor: '#4285F4', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
           >
             Gửi
           </Button>

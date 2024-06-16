@@ -35,7 +35,7 @@ const CustomerDetailModal = ({ open, handleClose, customer }) => {
           </Grid>
           <Grid item xs={12} container justifyContent="center" alignItems="center" direction="column">
             <ProfilePicture src={customer.profilePicture} alt={`${customer.name} profile`} />
-            <Typography>ID: {customer.role}</Typography>
+            <Typography>ID: {customer.id}</Typography>
             <Typography>Registed on: {customer.addedOn}</Typography>
           </Grid>
           <Grid item xs={12}>
@@ -44,6 +44,7 @@ const CustomerDetailModal = ({ open, handleClose, customer }) => {
             
             <TextField label="Phone number" value={customer.phoneNumber} fullWidth margin="normal" />
             <TextField label="Email" value={customer.email} fullWidth margin="normal" />
+            
            
           </Grid>
           <Grid item xs={12} container justifyContent="space-between">

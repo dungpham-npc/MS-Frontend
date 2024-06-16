@@ -7,7 +7,7 @@ import { CardActionArea } from '@mui/material';
 
 const BlogCard = ({ image, title, description }) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, border: '2px solid #cb8bcd' }} >
       <CardActionArea>
         <CardMedia
           component="img"

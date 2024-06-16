@@ -65,13 +65,13 @@ function Register() {
                     <Button
                         type="submit"
                         variant="contained"
-                        sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
+                        sx={{ backgroundColor: '#4285F4', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
                         Tạo tài khoản
                     </Button>
                     <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
                         Đã có tài khoản?{' '}
-                        <Link href="/login" underline="hover">
+                        <Link href="/login" underline="hover" color='#4285F4'>
                             Đăng nhập
                         </Link>
                     </Typography>

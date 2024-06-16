@@ -5,13 +5,14 @@ import {
 } from "@mui/material/styles";
 
 const PRIMARY = {
-    lighter: "#FFD07F",
-    light: "#FDA65D",
-    main: "#FF8243",
-    dark: "#E26A2C",
-    darker: "#cc571f",
-    contrastText: "#FFF",
+    lighter: "#f9e8fa",  // very light pinkish lavender
+    light: "#f6d2f4",    // light pinkish lavender
+    main: "#f3c6f7",     // your chosen color
+    dark: "#e0a8e3",     // a muted darker pink
+    darker: "#cb8bcd",   // even more saturated and darker pink
+    contrastText: "#FFF", // white remains for good contrast on darker shades
 };
+
 const SECONDARY = {
     lighter: "#D6E4FF",
     light: "#84A9FF",

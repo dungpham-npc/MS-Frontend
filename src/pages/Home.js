@@ -317,18 +317,18 @@ function HomePage() {
                                         <Alert severity="error">{error}</Alert>
                                     ) : (
                                         <>
-                                            <Box mb={2}>
+                                            <Box mb={2}sx>
                                                 <Typography variant="h4" gutterBottom noWrap>
-                                                    Trending
+                                                    Thịnh Hành
                                                 </Typography>
                                             </Box>
                                             <ProductList products={products.slice(0, 8)} />
                                             <Box mb={2}>
                                                 <Typography variant="h4" gutterBottom noWrap>
-                                                    On Sale
+                                                    Sữa cho mẹ bầu
                                                 </Typography>
                                             </Box>
-                                            <ProductList products={products.slice(9, 17)} />
+                                            <ProductList products={products.slice(0, 8)} />
                                         </>
                                     )}
                                 </>

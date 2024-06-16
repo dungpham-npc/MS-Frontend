@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {Stack, Container, Typography, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { styled } from '@mui/material';
-import ProductSort from '../components/ProductSort'
+// import ProductSort from '../components/ProductSort'
 import { FormProvider } from 'react-hook-form';
 
 // Sample orders data

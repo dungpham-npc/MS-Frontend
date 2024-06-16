@@ -17,29 +17,29 @@ const CartPage = () => {
     const initialCartItems = [
         {
             id: '1',
-            name: 'Nike Air Force 1 NDESTRUKT',
-            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_1.jpg',
+            name: 'Infant Premium Formula Milk',
+            cover: 'https://i5.walmartimages.com/seo/Similac-Advance-Powder-Baby-Formula-with-Iron-DHA-Lutein-30-8-oz-Value-Can-Pack-of-6_3c13c855-1316-489a-8ba1-974cb3d872e2.f2f86fb9680f97519f892e4bc33d5cbe.jpeg',
             price: 16.19,
             quantity: 2,
         },
         {
             id: '2',
-            name: 'Adidas Yeezy Boost 350',
-            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
+            name: 'Infant Premium Formula Milk',
+            cover: 'https://www.uyyaala.com/cdn/shop/products/IMG_9318.jpg?v=1660654060',
             price: 200,
             quantity: 1,
         },
         {
             id: '3',
-            name: 'Sample 3',
-            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
+            name: 'Infant Premium Formula Milk',
+            cover: 'https://www.alphamega.com.cy/Admin/Public/GetImage.ashx?Width=800&Height=800&Crop=5&DoNotUpscale=True&FillCanvas=True&Image=/Files/Images/Ecom/Products/784233.jpg&AlternativeImage=/Images/missing_image.jpg',
             price: 200,
             quantity: 1,
         },
         {
             id: '4',
-            name: 'Sample 4',
-            cover: 'https://storage.googleapis.com/cs-demo-data/coderstore/product_2.jpg',
+            name: 'Infant Premium Formula Milk',
+            cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRysB1XXHpSo_JCfp6lQygryljYR7T54SHGwQ&s',
             price: 200,
             quantity: 1,
         },
@@ -95,7 +95,7 @@ const CartPage = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
                         {cartItems.map((item) => (
-                            <Card key={item.id} sx={{ display: 'flex', mb: 2 }}>
+                            <Card key={item.id} sx={{ display: 'flex', mb: 2, border: '2px solid #cb8bcd' }}>
                                 <CardMedia
                                     component="img"
                                     sx={{ width: 151 }}
@@ -138,11 +138,11 @@ const CartPage = () => {
                         ))}
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
+                        <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: 2, border: '2px solid #cb8bcd' }}>
                             <Typography variant="h6" gutterBottom>
                                 Tổng kết
                             </Typography>
-                            <Divider sx={{ mb: 2 }} />
+                            <Divider sx={{ mb: 2, color:'#cb8bcd' }} />
                             <Typography variant="subtitle1">Tổng sản phẩm: {cartItems.reduce((acc, item) => acc + item.quantity, 0)}</Typography>
                             <Typography variant="subtitle1">Tổng tiền: ${getTotalPrice()}</Typography>
                             <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>

@@ -66,14 +66,14 @@ function Login() {
                         
                     />
                     <Typography underline="none" sx={{ alignSelf: 'flex-end', mb: 2 }}>
-                        <Link href="/reset" underline='hover'>
+                        <Link href="/reset" underline='hover' color='#4285F4'>
                             Quên mật khẩu?
                         </Link>
                     </Typography>
                     <Button
                         type="submit"
                         variant="contained"
-                        sx={{ backgroundColor: '#FF5722', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
+                        sx={{ backgroundColor: '#1939B7', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
                         Đăng nhập
                     </Button>
@@ -89,7 +89,7 @@ function Login() {
                     </Button>
                     <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
                         Chưa có tài khoản?{' '}
-                        <Link href="/register" underline="hover">
+                        <Link href="/register" underline="hover" color='#4285F4'>
                             Đăng ký
                         </Link>
                     </Typography>

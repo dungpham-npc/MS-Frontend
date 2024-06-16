@@ -5,6 +5,7 @@ import CustomerDetailModal from '../components/CustomerDetailModal';
 
 const initialCustomerList = [
   {
+    id: 1,
     name: 'Customer 1',
     role: 'Regular',
     addedOn: '15/3/2023',
