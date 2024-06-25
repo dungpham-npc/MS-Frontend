@@ -1,46 +1,77 @@
 import React, { useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import { TextField, Button, Container, Typography, Box, Link, Divider } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import FormProvider from '../components/form/FormProvider'
+import { TextField, Button, Container, Typography, Box, Link, Divider, Alert } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from '../hooks/useAuth';
+import { LoadingButton } from "@mui/lab"
 import * as yup from 'yup';
 import FTextField from '../components/form/FTextField';
 import "../App.css";
-import { Schema } from '../components/validation/validationSchema';
+// import { Schema } from '../components/validation/validationSchema';
 
-// const schema = yup.object().shape({
-//     email: yup.string().required('Email không được để trống').email('Email không hợp lệ'),
-//     password: yup.string().required('Mật khẩu không được để trống')
-// });
+const schema = yup.object().shape({
+    password: yup.string().required('Mật khẩu không được để trống'),
+    username: yup.string().required('email khong duoc de trong')
+});
 
+const defaultValues = {
+    username: "",
+    password: "",
+
+}
 function Login() {
-    const [isLogin, setIsLogin] = useState(true);
-    
-    const toggleForm = () => {
-        setIsLogin(!isLogin);
-    };
-    
-    const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/google";
-    };
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const auth = useAuth();
+
+
+    // const handleGoogleLogin = () => {
+    //     window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    // };
 
     const methods = useForm({
-        resolver: yupResolver(Schema),
+        resolver: yupResolver(schema),
+        defaultValues,
         mode: 'onChange'
     });
+    const {
+        handleSubmit,
+        reset,
+        setError,
+        formState: { errors, isSubmitting },
+    } = methods;
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
+        const from = location.state?.from?.pathname || "/";
+        let { username, password } = data;
+
+        try {
+            await auth.login({ username, password }, () => {
+                navigate(from, { replace: true });
+            });
+        } catch (error) {
+            reset();
+            setError("responseError", error);
+        }
     };
 
     return (
-        <FormProvider {...methods}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            {!!errors.responseError && (
+                <Alert severity="error">{errors.responseError.message}</Alert>
+            )}
             <Container maxWidth="sm">
+
                 <Box
-                    component="form"
-                    action="http://localhost:8080/login" method="post"
+
+
+                    // action="http://localhost:8080/login" method="post"
                     sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
+                        // display: 'flex',
+                        // // flexDirection: 'column',
                         gap: 2,
                         mt: 5,
                         padding: 3,
@@ -50,42 +81,42 @@ function Login() {
                     }}
                 >
                     <Typography variant="h4" component="h1" gutterBottom>
-                        Đăng nhập
+                        Đơn đăng nhập
                     </Typography>
                     <FTextField
-                        name="email"
+                        name="username"
                         label="Email"
-                        variant="outlined"
-                        
+
                     />
                     <FTextField
                         name="password"
                         label="Mật khẩu"
                         type="password"
-                        variant="outlined"
-                        
+
                     />
                     <Typography underline="none" sx={{ alignSelf: 'flex-end', mb: 2 }}>
                         <Link href="/reset" underline='hover' color='#4285F4'>
                             Quên mật khẩu?
                         </Link>
                     </Typography>
-                    <Button
+                    <LoadingButton
+                        fullWidth
+                        size="large"
                         type="submit"
                         variant="contained"
-                        sx={{ backgroundColor: '#1939B7', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
+                        loading={isSubmitting}
                     >
-                        Đăng nhập
-                    </Button>
+                        Login
+                    </LoadingButton>
                     <Divider sx={{ my: 2 }} />
                     <Button
-                        className="google-login"
-                        variant="contained"
-                        color="primary"
-                        sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
-                        onClick={handleGoogleLogin}
+                    // className="google-login"
+                    // variant="contained"
+                    // color="primary"
+                    // sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
+                    // onClick={handleGoogleLogin}
                     >
-                        Đăng nhập bằng Google
+                        đăng nhập bằng Google
                     </Button>
                     <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
                         Chưa có tài khoản?{' '}

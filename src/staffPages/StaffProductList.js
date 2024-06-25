@@ -17,8 +17,27 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import { Sheet } from '@mui/joy';
 
 const products = [
+  { id: 1, name: "Product #1", image: "path/to/image1.jpg", description: "Description for product #1", quantity: 10, price: 100 },
+  { id: 2, name: "Product #2", image: "path/to/image2.jpg", description: "Description for product #2", quantity: 20, price: 100 },
+  { id: 3, name: "Product #3", image: "path/to/image3.jpg", description: "Description for product #3", quantity: 30, price: 100 },
+  { id: 4, name: "Product #4", image: "path/to/image4.jpg", description: "Description for product #4", quantity: 40, price: 100 },
+  { id: 5, name: "Product #5", image: "path/to/image5.jpg", description: "Description for product #5", quantity: 50, price: 100 },
+  { id: 6, name: "Product #6", image: "path/to/image6.jpg", description: "Description for product #6", quantity: 60, price: 100 },
+  { id: 1, name: "Product #1", image: "path/to/image1.jpg", description: "Description for product #1", quantity: 10, price: 100 },
+  { id: 2, name: "Product #2", image: "path/to/image2.jpg", description: "Description for product #2", quantity: 20, price: 100 },
+  { id: 3, name: "Product #3", image: "path/to/image3.jpg", description: "Description for product #3", quantity: 30, price: 100 },
+  { id: 4, name: "Product #4", image: "path/to/image4.jpg", description: "Description for product #4", quantity: 40, price: 100 },
+  { id: 5, name: "Product #5", image: "path/to/image5.jpg", description: "Description for product #5", quantity: 50, price: 100 },
+  { id: 6, name: "Product #6", image: "path/to/image6.jpg", description: "Description for product #6", quantity: 60, price: 100 },
+  { id: 1, name: "Product #1", image: "path/to/image1.jpg", description: "Description for product #1", quantity: 10, price: 100 },
+  { id: 2, name: "Product #2", image: "path/to/image2.jpg", description: "Description for product #2", quantity: 20, price: 100 },
+  { id: 3, name: "Product #3", image: "path/to/image3.jpg", description: "Description for product #3", quantity: 30, price: 100 },
+  { id: 4, name: "Product #4", image: "path/to/image4.jpg", description: "Description for product #4", quantity: 40, price: 100 },
+  { id: 5, name: "Product #5", image: "path/to/image5.jpg", description: "Description for product #5", quantity: 50, price: 100 },
+  { id: 6, name: "Product #6", image: "path/to/image6.jpg", description: "Description for product #6", quantity: 60, price: 100 },
   { id: 1, name: "Product #1", image: "path/to/image1.jpg", description: "Description for product #1", quantity: 10, price: 100 },
   { id: 2, name: "Product #2", image: "path/to/image2.jpg", description: "Description for product #2", quantity: 20, price: 100 },
   { id: 3, name: "Product #3", image: "path/to/image3.jpg", description: "Description for product #3", quantity: 30, price: 100 },
@@ -35,14 +54,14 @@ export default function ProductList() {
   };
 
   const handleAddClick = () => {
-    navigate('new');  
+    navigate('new');
   };
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Box
-        component="main"
+
         sx={{
           backgroundColor: (theme) =>
             theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
@@ -54,20 +73,20 @@ export default function ProductList() {
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Typography component="h1" variant="h4" color="inherit" noWrap sx={{ flexGrow: 1, mb: 4 }}>
-            Product List
+            Danh Sách Sản Phẩm
           </Typography>
           <Button variant="contained" color="primary" sx={{ mb: 4 }} onClick={handleAddClick}>
-            Add Product
+            Thêm Sản Phẩm
           </Button>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 1100 }} aria-label="simple table">
+          <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
+            <Table sx={{ minWidth: 1100 }} stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Product Name</TableCell>
-                  <TableCell align="right">Quantity</TableCell>
-                  <TableCell align="right">Price</TableCell>
-                  <TableCell align="right">Description</TableCell>
-                  <TableCell align="right">Actions</TableCell>
+                  <TableCell>Tên Sản Phẩm</TableCell>
+                  <TableCell align="right">Số Lượng</TableCell>
+                  <TableCell align="right">Giá</TableCell>
+                  <TableCell align="right">Mô Tả</TableCell>
+                  <TableCell align="right">Hành Động</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -78,14 +97,47 @@ export default function ProductList() {
                     <TableCell align="right">{product.price}</TableCell>
                     <TableCell align="right">{product.description}</TableCell>
                     <TableCell align="right">
-                      <Button size="small" onClick={() => handleUpdateClick(product)}>Update</Button>
-                      <Button size="small">Remove</Button>
+
+                      <Button size="small">Xóa</Button>
+                      <Button size="small" onClick={() => handleUpdateClick(product)}>Cập Nhật</Button>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+
+          {/* <Sheet sx={{ height: 300, overflow: 'auto' }}>
+            <Table
+              aria-label="table with sticky header"
+              stickyHeader
+              stickyFooter
+              stripe="odd" z
+              hoverRow>
+              <thead>
+                <tr>
+                  <th>Tên sản phẩm</th>
+                  <th>ID sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Giá</th>
+                  <th>Mô tả</th>
+                  <th>Hành Động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.name}</td>
+                    <td>{product.id}</td>
+                    <td>{product.quantity}</td>
+                    <td>{product.price}</td>
+                    <td>{product.description}</td>
+
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Sheet> */}
         </Container>
       </Box>
     </Box>

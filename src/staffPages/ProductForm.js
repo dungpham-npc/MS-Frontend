@@ -15,7 +15,6 @@ function ProductForm() {
     mode: 'onChange',
   });
 
-
   const { handleSubmit } = methods;
   const navigate = useNavigate();
 
@@ -23,53 +22,43 @@ function ProductForm() {
     console.log(data);
     // Handle adding new staff
   };
+
   const handleGoBack = () => {
     navigate(-1);  // Equivalent to history.goBack()
   };
 
   return (
     <Container>
-      <Typography variant="h4" sx={{ mb: 2 }}>Add Staff</Typography>
+      <Typography variant="h4" sx={{ mb: 2 }}>Thêm Sản Phẩm</Typography>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FTextField
-            label="Name"
-            name="name"
+            label="Tên sản phẩm"
+            name="productName"
             fullWidth
             margin="normal"
-            
           />
-          
           <FTextField
-            label="Phone Number"
-            name="phoneNumber"
+            label="Giá thành"
+            name="price"
             fullWidth
             margin="normal"
-            
           />
           <FTextField
-                        name="email"
-                        label="Email"
-                        variant="outlined"
-                        
-                    />
-            <FormControl fullWidth margin="normal">
-                <InputLabel id="role-label">Role</InputLabel>
-                <Select
-                  labelId="role-label"
-                  label="Role"
-                  name= "Role"
-                  
-                >
-                  <MenuItem value="SELLER">Seller</MenuItem>
-                  <MenuItem value="MANAGER">Manager</MenuItem>
-                  <MenuItem value="POST_STAFF">Post Staff</MenuItem>
-                  <MenuItem value="PRODUCT_STAFF">Product Staff</MenuItem>
-                </Select>
-              </FormControl>
+            label="Số lượng"
+            name="quantity"
+            fullWidth
+            margin="normal"
+          />
+          <FTextField
+            name="description"
+            label="Mô tả"
+            variant="outlined"
+          />
+
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-            <Button type="submit" variant="contained" color="primary">Save</Button>
-            <Button variant="outlined" onClick={handleGoBack}>Cancel</Button>
+            <Button type="submit" variant="contained" color="primary">Lưu</Button>
+            <Button variant="outlined" onClick={handleGoBack}>Hủy</Button>
           </Box>
         </form>
       </FormProvider>
