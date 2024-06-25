@@ -1,53 +1,61 @@
-import React, { useState, useEffect } from "react";
-import { useForm, FormProvider } from 'react-hook-form';
-import { TextField, Button, Container, Typography, Box, Link, Divider } from '@mui/material';
+import React, { useEffect } from "react";
+import { useForm, FormProvider, Controller } from 'react-hook-form';
+import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useLocation } from "react-router-dom";
-import FTextField from '../components/form/FTextField';
-import "../App.css";
-import { Schema } from "../components/validation/validationSchema";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import { useFormContext } from '../components/form/FormContext';
 
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
-const FinishRegistration = () => {
-  const location = useLocation();
-  const [email, setEmail] = useState("");
+const Schema = yup.object().shape({
+  emailAddress: yup.string().email('Email không hợp lệ').required('Email không được để trống'),
+  phoneNumber: yup.string().required('Số điện thoại không được để trống').matches(phoneRegExp, 'Số điện thoại không hợp lệ'),
+  password: yup.string().required('Mật khẩu không được để trống'),
+  username: yup
+    .string()
+    .matches(/^[A-Za-zÀ-ÖÙ-öù-ÿĀ-žḀ-ỿăươ  ]*$/, 'Tên không hợp lệ')
+    .max(40, 'Tên không được quá 40 ký tự')
+    .required('Tên không được để trống'),
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    setEmail(params.get("email"));
-  }, [location]);
+});
+
+function FinishRegistration() {
+  const auth = useAuth();
+  const { formData } = useFormContext();
+  const navigate = useNavigate();
 
   const methods = useForm({
     resolver: yupResolver(Schema),
-    mode: 'onChange'
+    mode: 'onChange',
+    defaultValues: {
+      emailAddress: formData.emailAddress || "",
+      phoneNumber: "",
+      username: "",
+      password: "",
+
+    },
   });
 
+  const { handleSubmit, control, reset, setError, setValue, formState: { errors, isSubmitting } } = methods;
+
+  useEffect(() => {
+    // Set the email value in the form if it's available in the context
+    if (formData.emailAddress) {
+      setValue('emailAddress', formData.emailAddress);
+    }
+  }, [formData, setValue]);
+
   const onSubmit = async (data) => {
-    const formData = new URLSearchParams();
-    formData.append("emailAddress", email);
-    formData.append("username", data.username);
-    formData.append("phoneNumber", data.phoneNumber);
-    formData.append("password", data.password);
-
+    const { emailAddress, phoneNumber, username, password } = data;
     try {
-      const response = await fetch("http://localhost:8080/register/complete-registration", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: formData,
+      await auth.register({ emailAddress, phoneNumber, username, password }, () => {
+        navigate("/", { replace: true });
       });
-
-      if (response.ok) {
-        console.log("Registration completed");
-        // Handle successful registration
-      } else {
-        console.error("Registration failed");
-        // Handle registration failure
-      }
     } catch (error) {
-      console.error("Error:", error);
+      reset();
+      setError("responseError", error);
     }
   };
 
@@ -56,7 +64,7 @@ const FinishRegistration = () => {
       <Container maxWidth="sm">
         <Box
           component="form"
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -71,31 +79,61 @@ const FinishRegistration = () => {
           <Typography variant="h4" component="h1" gutterBottom>
             Hoàn thành đăng ký
           </Typography>
-          <FTextField
-            name="email"
-            label="Email"
-            variant="outlined"
-            value={email || ""}
-            InputProps={{
-              readOnly: true,
-            }}
+          <Controller
+            name="emailAddress"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Email"
+                variant="outlined"
+                error={!!errors.emailAddress}
+                helperText={errors.emailAddress ? errors.emailAddress.message : ""}
+                disabled
+              />
+            )}
           />
-          <FTextField
+          <Controller
             name="username"
-            label="Username"
-            variant="outlined"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Tên"
+                variant="outlined"
+                error={!!errors.username}
+                helperText={errors.username ? errors.username.message : ""}
+              />
+            )}
           />
-          <FTextField
+          <Controller
             name="phoneNumber"
-            label="Số điện thoại"
-            variant="outlined"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Số điện thoại"
+                variant="outlined"
+                error={!!errors.phoneNumber}
+                helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
+              />
+            )}
           />
-          <FTextField
+          <Controller
             name="password"
-            label="Mật khẩu"
-            type="password"
-            variant="outlined"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Mật khẩu"
+                type="password"
+                variant="outlined"
+                error={!!errors.password}
+                helperText={errors.password ? errors.password.message : ""}
+              />
+            )}
           />
+
           <Button
             type="submit"
             variant="contained"

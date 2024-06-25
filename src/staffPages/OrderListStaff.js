@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Stack, Container, Typography, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Stack, Container, Typography, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { styled } from '@mui/material';
 // import ProductSort from '../components/ProductSort'
 import { FormProvider } from 'react-hook-form';
@@ -69,17 +69,17 @@ const OrderListStaff = () => {
     <Container>
       <Typography variant="h4" gutterBottom>Order List</Typography>
       <FormProvider>
-          <Stack
-            spacing={2}
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ sm: "center" }}
-            justifyContent="space-between"
-            mb={2}
-          >
-            {/* <ProductSearch /> */}
-           
-          </Stack>
-        </FormProvider>
+        <Stack
+          spacing={2}
+          direction={{ xs: "column", sm: "row" }}
+          alignItems={{ sm: "center" }}
+          justifyContent="space-between"
+          mb={2}
+        >
+          {/* <ProductSearch /> */}
+
+        </Stack>
+      </FormProvider>
       <StyledTableContainer component={Paper}>
         <Table stickyHeader aria-label="order table">
           <TableHead>
@@ -90,7 +90,7 @@ const OrderListStaff = () => {
               <StyledTableCell>Phone Number</StyledTableCell>
               <StyledTableCell>Address</StyledTableCell>
               <StyledTableCell>Status</StyledTableCell>
-              
+
             </TableRow>
           </TableHead>
           <TableBody>
@@ -115,7 +115,7 @@ const OrderListStaff = () => {
                 <TableCell>{order.phoneNumber}</TableCell>
                 <TableCell>{order.address}</TableCell>
                 <TableCell>{order.status}</TableCell>
-                
+
               </TableRow>
             ))}
           </TableBody>

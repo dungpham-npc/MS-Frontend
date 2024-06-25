@@ -1,35 +1,58 @@
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextField, Divider, Button, Container, Typography, Box, Link } from '@mui/material';
+import { TextField, Divider, Button, Container, Typography, Box, Link, Grid } from '@mui/material';
 import "../App.css";
 import FTextField from '../components/form/FTextField';
-import { Schema } from '../components/validation/validationSchema';
+import FormProvider from '../components/form/FormProvider';
+import * as yup from 'yup';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { useFormContext } from '../components/form/FormContext';
 
-// const validationSchema = Yup.object().shape({
-//     email: Yup.string().email('Email không hợp lệ').required('Email không được để trống'),
-//     createPassword: Yup.string().required('Mật khẩu không được để trống'),
-//     confirmPassword: Yup.string()
-//         .oneOf([Yup.ref('createPassword'), null], 'Mật khẩu không khớp')
-//         .required('Mật khẩu không được để trống'),
-// });
+const Schema = yup.object().shape({
+    emailAddress: yup.string().email('Email không hợp lệ').required('Email không được để trống'),
+});
+
+const defaultValues = {
+    emailAddress: ""
+}
 
 function Register() {
+    const navigate = useNavigate();
+    const auth = useAuth();
+    const { updateFormData } = useFormContext()
+
     const methods = useForm({
         resolver: yupResolver(Schema),
+        defaultValues,
         mode: 'onChange' // Validate on change
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const {
+        handleSubmit,
+        reset,
+        setError,
+        formState: { errors, isSubmitting }
+    } = methods;
+
+    const onSubmit = async (data) => {
+        const { emailAddress } = data;
+        try {
+            await auth.sendEmail({ emailAddress }, () => {
+                updateFormData({ emailAddress });
+                navigate('/otp'); // Pass email as a query parameter
+            });
+        } catch (error) {
+            reset();
+            setError("responseError", error);
+        }
     };
 
     return (
-        <FormProvider {...methods}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Container maxWidth="sm">
                 <Box
-                    component="form"
-                    onSubmit={methods.handleSubmit(onSubmit)}
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -41,34 +64,23 @@ function Register() {
                         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                     }}
                 >
-                    <Typography variant="h4" component="h1" gutterBottom>
+                    <Typography type="submit" variant="h4" component="h1" gutterBottom>
                         Đăng ký
                     </Typography>
+
                     <FTextField
-                        name="email"
+                        name="emailAddress"
                         label="Email"
                         variant="outlined"
                     />
-                    <FTextField
-                        name="createPassword"
-                        label="Nhập mật khẩu"
-                        type="password"
-                        variant="outlined"
-                    />
-                    <FTextField
-                        name="confirmPassword"
-                        label="Nhập lại khẩu"
-                        type="password"
-                        variant="outlined"
-                    />
-
                     <Button
                         type="submit"
                         variant="contained"
                         sx={{ backgroundColor: '#4285F4', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
                     >
-                        Tạo tài khoản
+                        Lấy OTP
                     </Button>
+
                     <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
                         Đã có tài khoản?{' '}
                         <Link href="/login" underline="hover" color='#4285F4'>
@@ -83,7 +95,7 @@ function Register() {
                         sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
                         onClick={() => { console.log('Login with Google'); }}
                     >
-                        Đăng nhập bằng google 
+                        Đăng nhập bằng google
                     </Button>
                 </Box>
             </Container>
