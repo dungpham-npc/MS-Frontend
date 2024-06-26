@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 function ProductCard({ product }) {
     const navigate = useNavigate();
     return (
-        <Card onClick={() => navigate(`/product/${product.id}`)} sx={{ border: '2px solid #cb8bcd' }}>
+        <Card onClick={() => navigate(`/product/${product.productID}`)} sx={{ border: '2px solid #cb8bcd' }}>
             <CardActionArea>
                 <CardMedia
                     component="img"

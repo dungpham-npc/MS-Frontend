@@ -13,7 +13,7 @@ import ProductFilter from '../components/ProductFilter';
 import { orderBy } from 'lodash';
 
 function HomePage() {
-    const [data, setProducts] = useState([]);
+    const [result, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -54,9 +54,11 @@ function HomePage() {
         const getProducts = async () => {
             setLoading(true);
             try {
-                const res = await apiService.get("/product-staff/get-product");
-                setProducts(res.data);
+                const res = await apiService.get("/api/products");
+                // Ensure res.data is an array
+                setProducts(res.data.result);
                 setError("");
+
             } catch (error) {
                 console.log(error);
                 setError(error.message);
@@ -109,13 +111,13 @@ function HomePage() {
                                                     Thịnh Hành
                                                 </Typography>
                                             </Box>
-                                            <ProductList data={data.slice(0, 8)} />
+                                            <ProductList result={result.slice(0, 8)} />
                                             <Box mb={2}>
                                                 <Typography variant="h4" gutterBottom noWrap>
                                                     Sữa cho mẹ bầu
                                                 </Typography>
                                             </Box>
-                                            <ProductList data={data.slice(0, 8)} />
+                                            <ProductList result={result.slice(0, 8)} />
                                         </>
                                     )}
                                 </>

@@ -17,7 +17,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Logo from '../components/Logo';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 // import EditCustomerAccount from '../pages/EditCusAcc';
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -48,7 +49,7 @@ const HeaderContainer = styled('div')(({ theme }) => ({
     position: 'fixed',
     width: '100%',
     zIndex: 1100,
-  }));
+}));
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
@@ -64,20 +65,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 const AppBarStyled = styled(AppBar)(({ theme }) => ({
     background: 'linear-gradient(90deg, rgba(255,255,255,1) 6%, rgba(243,198,247,1) 27%, rgba(239,171,245,1) 62%)',
-  }));
+}));
 
 export default function PrimarySearchAppBar() {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const { user, logout } = useAuth();
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    const handleLogout = () => {
-        // Perform any logout logic here (e.g., clearing authentication tokens)
+    const handleLogout = async () => {
+        try {
+            await logout(() => {
+                navigate("/login");
+            });
+        } catch (error) {
+            console.error(error);
+        }
 
-        // Navigate to the login page
-        navigate('/login');
     };// Temporary logout function
     const handleMyAcc = () => {
         navigate('/editAcc');
@@ -117,7 +123,7 @@ export default function PrimarySearchAppBar() {
             // onClose={handleMenuClose}
             onClick={handleMenuClose}
         >
-            
+
             <MenuItem onClick={handleMyAcc}>Tài khoản của tôi</MenuItem>
             <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
 
@@ -125,7 +131,7 @@ export default function PrimarySearchAppBar() {
     );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
-    
+
     const renderMobileMenu = (
         <Menu
             anchorEl={mobileMoreAnchorEl}
@@ -162,91 +168,91 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            
+
         </Menu>
     );
 
     return (
         <HeaderContainer>
-         <Box sx={{ flexGrow: 1 }}>
-            <AppBarStyled position="static">
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                    >
-                        <Logo />
-                    </IconButton>
-                    <Typography
-                    variant="h6"
-                    noWrap
-                    component="div"
-                    sx={{
-                    display: { xs: 'none', sm: 'block' },
-                    fontFamily: 'Montserrat, Arial, sans-serif',
-                    color: '#673AB7',
-                    }}
-                    >
-                    Cửa hàng sữa
-                    </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Tìm sản phẩm…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
-                    
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                        Hotline: 0905123456
-                    </Typography>
-                    <Box sx={{ display: { xs: 'None', md: 'flex' } }}>
-                        <IconButton href="/cart" size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
-                                <ShoppingCartIcon />
-                            </Badge>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBarStyled position="static">
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                        >
+                            <Logo />
                         </IconButton>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{
+                                display: { xs: 'none', sm: 'block' },
+                                fontFamily: 'Montserrat, Arial, sans-serif',
+                                color: '#673AB7',
+                            }}
+                        >
+                            Cửa hàng sữa
+                        </Typography>
+                        <Search>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Tìm sản phẩm…"
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </Search>
+
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{ display: { xs: 'none', sm: 'block' } }}
+                        >
+                            Hotline: 0905123456
+                        </Typography>
+                        <Box sx={{ display: { xs: 'None', md: 'flex' } }}>
+                            <IconButton component={NavLink} to="/cart" size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge badgeContent={4} color="error">
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </IconButton>
 
 
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                    </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
-                    </Box>
-                </Toolbar>
-            </AppBarStyled>
-            {renderMobileMenu}
-            {renderMenu}
-         </Box >
-         </HeaderContainer>
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                        </Box>
+                        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={handleMobileMenuOpen}
+                                color="inherit"
+                            >
+                                <MoreIcon />
+                            </IconButton>
+                        </Box>
+                    </Toolbar>
+                </AppBarStyled>
+                {renderMobileMenu}
+                {renderMenu}
+            </Box >
+        </HeaderContainer>
     );
 }

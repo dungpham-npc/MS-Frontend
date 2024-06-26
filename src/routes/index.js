@@ -43,7 +43,7 @@ function Router() {
 
         <Route path="/" element={<MainLayout />} >
           <Route index element={<Home />} />
-          <Route path="product/:id" element={<DetailPage />} />
+          <Route path="product/:productID" element={<DetailPage />} />
           <Route path='editAcc' element={<EditCustomerAccount />} />
           <Route path='purchase' element={<PurchaseHistory />} />
           <Route path='password' element={<ChangePassword />} />
