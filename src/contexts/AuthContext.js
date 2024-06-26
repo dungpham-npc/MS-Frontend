@@ -108,6 +108,24 @@ function AuthProvider({ children }) {
 
         callback();
     };
+    const sendOTPForgot = async ({ emailAddress, otpCode }, callback) => {
+        const response = await apiService.post("/otp/forgot-validation", { emailAddress, otpCode }, {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        });
+
+
+        console.log("Data in response: ", response.data)
+        const { user } = response.data;
+
+        dispatch({
+            type: SEND_OTP,
+            payload: { user },
+        });
+
+        callback();
+    };
     const sendEmail = async ({ emailAddress }, callback) => {
         const response = await apiService.post("/otp/register", {
             emailAddress
@@ -176,7 +194,9 @@ function AuthProvider({ children }) {
                 login,
                 register,
                 sendEmail,
+                sendEmailForgot,
                 sendOTP,
+                sendOTPForgot,
                 logout
             }}
         >

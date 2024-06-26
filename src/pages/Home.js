@@ -165,7 +165,7 @@
 // function applyFilter(products, filters) {
 //     const { sortBy } = filters;
 //     let filteredProducts = products;
-  
+
 //     // SORT BY
 //     if (sortBy === "featured") {
 //       filteredProducts = orderBy(products, ["sold"], ["desc"]);
@@ -179,7 +179,7 @@
 //     if (sortBy === "priceAsc") {
 //       filteredProducts = orderBy(products, ["price"], ["asc"]);
 //     }
-  
+
 //     // FILTER PRODUCTS
 //     if (filters.gender.length > 0) {
 //       filteredProducts = products.filter((product) =>
@@ -209,7 +209,7 @@
 //     }
 //     return filteredProducts;
 //   }
-  
+
 
 // export default HomePage;
 import { Container, Alert, Box, Stack, Grid, Typography } from '@mui/material';
@@ -263,26 +263,26 @@ function HomePage() {
         },
     ];
 
-    useEffect(() => {
-        const getProducts = async () => {
-            setLoading(true);
-            try {
-                const res = await apiService.get("/products");
-                setProducts(res.data);
-                setError("");
-            } catch (error) {
-                console.log(error);
-                setError(error.message);
-            }
-            setLoading(false);
-        };
+    // useEffect(() => {
+    //     const getProducts = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const res = await apiService.get("/products");
+    //             setProducts(res.data);
+    //             setError("");
+    //         } catch (error) {
+    //             console.log(error);
+    //             setError(error.message);
+    //         }
+    //         setLoading(false);
+    //     };
 
-        const { watch, reset } = methods;
-        const filters = watch();
-        const filterProducts = applyFilter(products, filters);
+    //     const { watch, reset } = methods;
+    //     const filters = watch();
+    //     const filterProducts = applyFilter(products, filters);
 
-        getProducts();
-    }, []);
+    //     getProducts();
+    // }, []);
 
     return (
         <Container sx={{ display: "flex", minHeight: "100vh" }}>
@@ -317,7 +317,7 @@ function HomePage() {
                                         <Alert severity="error">{error}</Alert>
                                     ) : (
                                         <>
-                                            <Box mb={2}sx>
+                                            <Box mb={2} sx>
                                                 <Typography variant="h4" gutterBottom noWrap>
                                                     Thịnh Hành
                                                 </Typography>
