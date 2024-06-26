@@ -1,30 +1,57 @@
 import React from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import FormProvider from '../components/form/FormProvider';
 import { TextField, Button, Container, Typography, Box, Link } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import FTextField from '../components/form/FTextField';
 import "../App.css";
-import { Schema } from '../components/validation/validationSchema';
-
-
-
+import { useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import { useFormContext } from '../components/form/FormContext';
+const Schema = yup.object().shape({
+    email: yup.string().email('Email không hợp lệ').required('Email không được để trống'),
+});
+const defaultValues = {
+    email: ""
+}
 function ForgotPassword() {
+    const navigate = useNavigate();
+    const auth = useAuth();
+    const { updateFormData } = useFormContext()
+
     const methods = useForm({
         resolver: yupResolver(Schema),
-        mode: 'onChange'
+        defaultValues,
+        mode: 'onChange' // Validate on change
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const {
+        handleSubmit,
+        reset,
+        setError,
+        formState: { errors, isSubmitting }
+    } = methods;
+
+    const onSubmit = async (data) => {
+        const { email } = data;
+        try {
+            await auth.sendEmailForgot({ email }, () => {
+                updateFormData({ email });
+                navigate('/otp'); // Pass email as a query parameter
+            });
+        } catch (error) {
+            reset();
+            setError("responseError", error);
+        }
     };
 
     return (
-        <FormProvider {...methods}>
+        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Container maxWidth="sm">
                 <Box
-                    component="form"
-                    onSubmit={methods.handleSubmit(onSubmit)}
+
+
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -43,10 +70,10 @@ function ForgotPassword() {
                         Hãy nhập địa chỉ email trước đó bạn dùng để đăng ký
                     </Typography>
                     <FTextField
-                        name="email"
+                        name="emailAddress"
                         label="Email"
                         variant="outlined"
-                        
+
                     />
                     <Button
                         type="submit"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { TextField, Divider, Button, Container, Typography, Box, Link, Grid } from '@mui/material';
+import { TextField, Divider, Button, Alert, Container, Typography, Box, Link } from '@mui/material';
 import "../App.css";
 import FTextField from '../components/form/FTextField';
 import FormProvider from '../components/form/FormProvider';
@@ -50,56 +50,71 @@ function Register() {
     };
 
     return (
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <Container maxWidth="sm">
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 2,
-                        mt: 5,
-                        padding: 3,
-                        border: '1px solid #ccc',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                    }}
-                >
-                    <Typography type="submit" variant="h4" component="h1" gutterBottom>
-                        Đăng ký
-                    </Typography>
-
+        <Container maxWidth="sm" sx={{ mt: 8 }}>
+            <Box
+                sx={{
+                    padding: 4,
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '12px',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: '#fff',
+                }}
+            >
+                <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'center' }}>
+                    Đăng ký
+                </Typography>
+                {!!errors.responseError && (
+                    <Alert severity="error" sx={{ mb: 2 }}>{errors.responseError.message}</Alert>
+                )}
+                <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
                     <FTextField
                         name="emailAddress"
                         label="Email"
                         variant="outlined"
+                        fullWidth
+                        sx={{ mb: 3 }}
+                        color="secondary"
                     />
                     <Button
                         type="submit"
                         variant="contained"
-                        sx={{ backgroundColor: '#4285F4', color: '#FFFFFF', '&:hover': { backgroundColor: '#E64A19' } }}
+                        sx={{
+                            backgroundColor: '#4285F4',
+                            color: '#FFFFFF',
+                            py: 1.5,
+                            mb: 2,
+                            '&:hover': { backgroundColor: '#357ae8' }
+                        }}
+                        fullWidth
                     >
                         Lấy OTP
                     </Button>
 
-                    <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
+                    <Typography variant="body2" sx={{ textAlign: 'center', mb: 2 }}>
                         Đã có tài khoản?{' '}
-                        <Link href="/login" underline="hover" color='#4285F4'>
+                        <Link href="/login" underline="hover" color="secondary">
                             Đăng nhập
                         </Link>
                     </Typography>
-                    <Divider sx={{ my: 2 }} />
+
+                    <Divider sx={{ my: 3 }} />
 
                     <Button
                         variant="contained"
-                        color="primary"
-                        sx={{ mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
+                        sx={{
+                            backgroundColor: '#4285F4',
+                            color: '#FFFFFF',
+                            '&:hover': { backgroundColor: '#357ae8' },
+                            py: 1.5
+                        }}
+                        fullWidth
                         onClick={() => { console.log('Login with Google'); }}
                     >
-                        Đăng nhập bằng google
+                        Đăng nhập bằng Google
                     </Button>
-                </Box>
-            </Container>
-        </FormProvider>
+                </FormProvider>
+            </Box>
+        </Container>
     );
 }
 
