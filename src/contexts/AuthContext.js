@@ -54,15 +54,20 @@ const reducer = (state, action) => {
     }
 };
 
-const setSession = (token) => {
+const setSession = (token, user = null) => {
     if (token) {
         window.localStorage.setItem("token", token);
+        if (user) {
+            window.localStorage.setItem("user", JSON.stringify(user));
+        }
         apiService.defaults.headers.common.Authorization = `Bearer ${token}`;
     } else {
         window.localStorage.removeItem("token");
+        window.localStorage.removeItem("user");
         delete apiService.defaults.headers.common.Authorization;
     }
 };
+
 
 const AuthContext = createContext({ ...initialState });
 
@@ -81,7 +86,7 @@ function AuthProvider({ children }) {
         console.log("Data in response: ", response.data)
         const { user, token } = response.data;
 
-        setSession(token);
+        setSession(token, user);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: { user },

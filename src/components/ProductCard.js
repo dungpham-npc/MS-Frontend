@@ -20,7 +20,7 @@ function ProductCard({ product }) {
                 />
                 <CardContent>
                     <Typography gutterBottom variant="body1" component="div" noWrap>
-                        {product.name}
+                        {product.productName}
                     </Typography>
                     <Stack
                         direction="row"
@@ -28,14 +28,14 @@ function ProductCard({ product }) {
                         alignItems="center"
                         justifyContent="flex-end"
                     >
-                        {product.priceSale && (
+                        {/* {product.priceSale && (
                             <Typography
                                 component="span"
                                 sx={{ color: "text.disabled", textDecoration: "line-through" }}
-                            >
-                                {/* {fCurrency(product.priceSale)} */} {product.priceSale}
-                            </Typography>
-                        )}
+                            > */}
+                        {/* {fCurrency(product.priceSale)} {product.priceSale} */}
+                        {/* </Typography>
+                        )} */}
                         <Typography variant="subtitle1">
                             {/* {fCurrency(product.price)} */} {product.price}
                         </Typography>
