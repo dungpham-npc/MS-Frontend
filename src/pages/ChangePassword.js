@@ -1,4 +1,3 @@
-// src/pages/EditCustomerAccount.js
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography, Container, Alert } from '@mui/material';
 import apiService from '../app/apiService';
@@ -7,48 +6,27 @@ import FTextField from '../components/form/FTextField';
 import { useForm, FormProvider } from 'react-hook-form';
 
 const ChangePassword = () => {
-    const [formValues, setFormValues] = useState({
-        name: '',
-        email: '',
-        address: '',
-    });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const methods = useForm();
 
-    // Uncomment and implement fetching customer data if needed
-    // useEffect(() => {
-    //     const fetchCustomerData = async () => {
-    //         setLoading(true);
-    //         try {
-    //             const response = await apiService.get('/customer/account');
-    //             setFormValues(response.data);
-    //             setError(null);
-    //         } catch (err) {
-    //             setError('Failed to fetch customer data');
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
-    //     fetchCustomerData();
-    // }, []);
-
-    const handleInputChange = (name, value) => {
-        setFormValues((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
-    };
-
     const handleSubmit = async (data) => {
+        console.log('Form Data:', data); // Debug log
         setLoading(true);
+        const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+
+        const headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": `Bearer ${token}` // Include the token in the Authorization header
+        };
         try {
-            await apiService.put('/customer/account', data);
+            await apiService.put('/account/password-update', data, { headers });
             setSuccess('Account updated successfully');
             setError(null);
         } catch (err) {
-            setError('Failed to update account');
+            console.error('Update Error:', err); // Debug log
+            setError(err.message || 'Failed to update account');
             setSuccess(null);
         } finally {
             setLoading(false);
@@ -70,21 +48,24 @@ const ChangePassword = () => {
                         <FormProvider {...methods}>
                             <form onSubmit={methods.handleSubmit(handleSubmit)}>
                                 <FTextField
-                                    name="password"
+                                    name="oldPassword"
                                     label="Mật khẩu hiện tại"
                                     variant="outlined"
                                     validationRules={{ required: 'Password must not be empty' }}
                                     sx={{ mb: 2 }}  // Add margin bottom
                                 />
                                 <FTextField
-                                    name="createPassword"
+                                    name="newPassword"
                                     label="Mật khẩu mới"
                                     type="password"
                                     variant="outlined"
-                                    validationRules={{ required: 'Password must not be empty' }}
+                                    validationRules={{
+                                        required: 'Password must not be empty',
+                                        validate: (value, allValues) => value !== allValues.oldPassword || 'New password must not be the same as the current password'
+                                    }}
                                     sx={{ mb: 2 }}  // Add margin bottom
                                 />
-                                <FTextField
+                                {/* <FTextField
                                     name="confirmPassword"
                                     label="Xác nhận mật khẩu"
                                     type="password"
@@ -92,10 +73,10 @@ const ChangePassword = () => {
                                     validationRules={{
                                         required: 'Password must not be empty',
                                         validate: (value) =>
-                                            value === methods.watch('createPassword') || 'Passwords do not match',
+                                            value === methods.watch('newPassword') || 'Passwords do not match',
                                     }}
                                     sx={{ mb: 2 }}  // Add margin bottom
-                                />
+                                /> */}
                                 <Button
                                     variant="contained"
                                     color="primary"

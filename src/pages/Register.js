@@ -6,6 +6,7 @@ import "../App.css";
 import FTextField from '../components/form/FTextField';
 import FormProvider from '../components/form/FormProvider';
 import * as yup from 'yup';
+import { LoadingButton } from "@mui/lab";
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from '../components/form/FormContext';
@@ -75,9 +76,10 @@ function Register() {
                         sx={{ mb: 3 }}
                         color="secondary"
                     />
-                    <Button
+                    <LoadingButton
                         type="submit"
                         variant="contained"
+                        loading={isSubmitting}
                         sx={{
                             backgroundColor: '#4285F4',
                             color: '#FFFFFF',
@@ -88,7 +90,7 @@ function Register() {
                         fullWidth
                     >
                         Lấy OTP
-                    </Button>
+                    </LoadingButton>
 
                     <Typography variant="body2" sx={{ textAlign: 'center', mb: 2 }}>
                         Đã có tài khoản?{' '}

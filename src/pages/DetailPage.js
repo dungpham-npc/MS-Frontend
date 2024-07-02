@@ -101,15 +101,23 @@ function DetailPage() {
         const userId = savedUser.id;
 
         const productToAdd = {
-            userid: userId,
-            productid: product.productID,
+
+            product_id: product.productID,
             quantity: quantity
         };
+
+        // Retrieve the token from local storage
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error('Token not found in local storage');
+            return;
+        }
 
         try {
             const response = await apiService.post(`api/carts/${userId}/items`, productToAdd, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 }
             });
             console.log('Product added to cart:', response.data);
@@ -119,6 +127,7 @@ function DetailPage() {
             // Optionally, handle errors, e.g., show error message to the user
         }
     };
+
 
 
     const handleBuyNow = () => {

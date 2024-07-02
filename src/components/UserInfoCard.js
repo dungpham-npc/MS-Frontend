@@ -4,7 +4,9 @@ import { Card, Typography, List, ListItem, ListItemText } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 
-const UserInfoCard = ({ name }) => {
+const UserInfoCard = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const name = user.username;
     return (
         <Box sx={{ flex: 1, mr: 3 }}>
             <Card sx={{ mb: 3, p: 2, border: 1, borderColor: 'grey.400' }}>
