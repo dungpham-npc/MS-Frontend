@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Typography,
@@ -12,73 +12,144 @@ import {
     TextField,
 } from '@mui/material';
 import { Add, Remove, Delete } from '@mui/icons-material';
+import apiService from '../app/apiService';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
-    const initialCartItems = [
-        {
-            id: '1',
-            name: 'Infant Premium Formula Milk',
-            cover: 'https://i5.walmartimages.com/seo/Similac-Advance-Powder-Baby-Formula-with-Iron-DHA-Lutein-30-8-oz-Value-Can-Pack-of-6_3c13c855-1316-489a-8ba1-974cb3d872e2.f2f86fb9680f97519f892e4bc33d5cbe.jpeg',
-            price: 16.19,
-            quantity: 2,
-        },
-        {
-            id: '2',
-            name: 'Infant Premium Formula Milk',
-            cover: 'https://www.uyyaala.com/cdn/shop/products/IMG_9318.jpg?v=1660654060',
-            price: 200,
-            quantity: 1,
-        },
-        {
-            id: '3',
-            name: 'Infant Premium Formula Milk',
-            cover: 'https://www.alphamega.com.cy/Admin/Public/GetImage.ashx?Width=800&Height=800&Crop=5&DoNotUpscale=True&FillCanvas=True&Image=/Files/Images/Ecom/Products/784233.jpg&AlternativeImage=/Images/missing_image.jpg',
-            price: 200,
-            quantity: 1,
-        },
-        {
-            id: '4',
-            name: 'Infant Premium Formula Milk',
-            cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRysB1XXHpSo_JCfp6lQygryljYR7T54SHGwQ&s',
-            price: 200,
-            quantity: 1,
-        },
-    ];
+    const [cartItems, setCartItems] = useState([]);
+    const [cartId, setCartId] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const [cartItems, setCartItems] = useState(initialCartItems);
+    useEffect(() => {
+        const savedUser = JSON.parse(localStorage.getItem('user'));
 
-    const handleIncreaseQuantity = (id) => {
+        // Check if the user object exists and get the id
+        if (!savedUser || !savedUser.id) {
+            console.error('User ID not found in local storage');
+            return;
+        }
+
+        const userId = savedUser.id;
+        const token = localStorage.getItem("token");
+        const fetchCartItems = async () => {
+            setLoading(true);
+            try {
+                const response = await apiService.get(`/api/carts/${userId}`, {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                if (response.data.result.length > 0 && response.data.result[0].items) {
+                    setCartItems(response.data.result[0].items);
+                    setCartId(response.data.result[0].cartId);
+
+                    setError('');
+                } else {
+                    setError('No items in cart');
+                }
+                console.log("Cartid is ", cartId);
+            } catch (error) {
+                console.error('Failed to fetch cart items:', error);
+                setError(error.message || 'An error occurred while fetching cart items');
+            }
+            setLoading(false);
+        };
+
+        fetchCartItems();
+    }, []);
+
+
+    if (loading) {
+        return <p>Loading cart items...</p>;
+    }
+
+    if (error) {
+        return <p>Error: {error}</p>;
+    }
+
+    const handleIncreaseQuantity = (productId) => {
         setCartItems((prevItems) =>
             prevItems.map((item) =>
-                item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+                item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item
             )
         );
     };
 
-    const handleDecreaseQuantity = (id) => {
+    const handleDecreaseQuantity = (productId) => {
         setCartItems((prevItems) =>
             prevItems.map((item) =>
-                item.id === id && item.quantity > 1
+                item.productId === productId && item.quantity > 1
                     ? { ...item, quantity: item.quantity - 1 }
                     : item
             )
         );
     };
-
-    const handleQuantityChange = (id, event) => {
+    const handleProceedCheckout = () => {
+        navigate("/checkout")
+    }
+    const handleQuantityChange = async (productId, event) => {
+        const savedUser = JSON.parse(localStorage.getItem('user'));
+        const userId = savedUser.id;
         const value = event.target.value;
         if (value === '' || (parseInt(value) > 0 && parseInt(value) <= 99)) {
             setCartItems((prevItems) =>
                 prevItems.map((item) =>
-                    item.id === id ? { ...item, quantity: value === '' ? '' : parseInt(value) } : item
+                    item.productId === productId ? { ...item, quantity: value === '' ? '' : parseInt(value) } : item
                 )
             );
         }
+        const token = localStorage.getItem("token");
+        const quantity = value;
+        const data = {
+            productId,
+            quantity
+        }
+        try {
+            await apiService.put(`/api/carts/${cartId}/items?userId=${userId}`, data, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+        } catch {
+
+        }
     };
 
-    const handleRemoveItem = (id) => {
-        setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    const handleRemoveItem = async (productId) => {
+        const savedUser = JSON.parse(localStorage.getItem('user'));
+        const token = localStorage.getItem("token");
+
+        if (!savedUser || !savedUser.id) {
+            console.error('User ID not found in local storage');
+            return;
+        }
+        if (!token) {
+            console.error('Token not found in local storage');
+            return;
+        }
+
+        const userId = savedUser.id;
+        console.log('Sending request with Authorization:', `Bearer ${token}`);
+
+        try {
+            const response = await apiService.delete(`/api/carts/${cartId}?userId=${userId}&itemId=${productId}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            if (response.status === 200) {
+                setCartItems((prevItems) => prevItems.filter((item) => item.productId !== productId));
+            } else {
+                console.error('Unexpected response', response);
+            }
+        } catch (error) {
+            console.error('Failed to remove item from cart:', error);
+        }
     };
+
 
     const getTotalPrice = () => {
         return cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
@@ -87,7 +158,7 @@ const CartPage = () => {
     return (
         <Box sx={{ padding: 3 }}>
             <Typography variant="h4" gutterBottom>
-                Giỏ hàng 
+                Giỏ hàng
             </Typography>
             {cartItems.length === 0 ? (
                 <Typography variant="h6">Your cart is empty</Typography>
@@ -95,30 +166,30 @@ const CartPage = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
                         {cartItems.map((item) => (
-                            <Card key={item.id} sx={{ display: 'flex', mb: 2, border: '2px solid #cb8bcd' }}>
+                            <Card key={item.productId} sx={{ display: 'flex', mb: 2, border: '2px solid #cb8bcd' }}>
                                 <CardMedia
                                     component="img"
                                     sx={{ width: 151 }}
-                                    image={item.cover}
-                                    alt={item.name}
+                                    image={item.cover || 'https://via.placeholder.com/151'} // Placeholder in case no image is provided
+                                    alt={item.productName}
                                 />
                                 <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                                     <CardContent sx={{ flex: '1 0 auto' }}>
                                         <Typography component="div" variant="h5">
-                                            {item.name}
+                                            {item.productName}
                                         </Typography>
                                         <Typography variant="subtitle1" color="text.secondary" component="div">
                                             ${item.price} x {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
                                         </Typography>
                                     </CardContent>
                                     <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                                        <IconButton onClick={() => handleDecreaseQuantity(item.id)} disabled={item.quantity <= 1}>
+                                        <IconButton onClick={() => handleDecreaseQuantity(item.productId)} disabled={item.quantity <= 1}>
                                             <Remove />
                                         </IconButton>
                                         <TextField
                                             type="number"
                                             value={item.quantity}
-                                            onChange={(event) => handleQuantityChange(item.id, event)}
+                                            onChange={(event) => handleQuantityChange(item.productId, event)}
                                             inputProps={{
                                                 min: 1,
                                                 max: 99,
@@ -126,10 +197,10 @@ const CartPage = () => {
                                             }}
                                             sx={{ width: 60 }}
                                         />
-                                        <IconButton onClick={() => handleIncreaseQuantity(item.id)}>
+                                        <IconButton onClick={() => handleIncreaseQuantity(item.productId)}>
                                             <Add />
                                         </IconButton>
-                                        <IconButton onClick={() => handleRemoveItem(item.id)}>
+                                        <IconButton onClick={() => handleRemoveItem(item.productId)}>
                                             <Delete />
                                         </IconButton>
                                     </Box>
@@ -142,10 +213,10 @@ const CartPage = () => {
                             <Typography variant="h6" gutterBottom>
                                 Tổng kết
                             </Typography>
-                            <Divider sx={{ mb: 2, color:'#cb8bcd' }} />
+                            <Divider sx={{ mb: 2, color: '#cb8bcd' }} />
                             <Typography variant="subtitle1">Tổng sản phẩm: {cartItems.reduce((acc, item) => acc + item.quantity, 0)}</Typography>
                             <Typography variant="subtitle1">Tổng tiền: ${getTotalPrice()}</Typography>
-                            <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                            <Button variant="contained" color="primary" onClick={handleProceedCheckout} fullWidth sx={{ mt: 2 }}>
                                 Thanh toán
                             </Button>
                         </Box>

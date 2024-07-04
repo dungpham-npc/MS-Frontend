@@ -24,7 +24,13 @@ apiService.interceptors.response.use(
     },
     function (error) {
         console.log("RESPONSE ERROR", error);
-        const message = error.response?.data?.message || "Uknown Error";
+        let message = error.response?.data?.message || "Uknown Error";
+        if (message.includes("user.phone_Number")) {
+            message = "Số điện thoại đã tồn tại";
+        }
+        if (message.includes("Data too long for column 'phone_Number'")) {
+            message = "Số điện thoại không quá 10 số";
+        }
         console.log(message);
         return Promise.reject({ message });
     }

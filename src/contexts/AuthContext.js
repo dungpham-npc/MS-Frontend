@@ -67,15 +67,26 @@ const setSession = (token, user = null) => {
         delete apiService.defaults.headers.common.Authorization;
     }
 };
-
+const getUserFromStorage = () => {
+    const user = window.localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+};
 
 const AuthContext = createContext({ ...initialState });
 
 function AuthProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState);
+    useEffect(() => {
+        const user = getUserFromStorage();
+        if (user) {
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: { user },
+            });
+        }
+    }, []);
 
-
-    const login = async ({ username, password }, callback) => {
+    const login = async ({ username, password }) => {
         const response = await apiService.post("/login", { username, password },
             {
                 headers: {
@@ -92,7 +103,7 @@ function AuthProvider({ children }) {
             payload: { user },
         });
 
-        callback();
+        return user;
     };
     const sendEmailForgot = async ({ emailAddress }, callback) => {
         const response = await apiService.post("/otp/forgot", {
@@ -169,7 +180,7 @@ function AuthProvider({ children }) {
         callback();
     };
     const register = async ({ emailAddress, phoneNumber, username, password }, callback) => {
-        const response = await apiService.post("/register/complete-registration", { emailAddress, phoneNumber, username, password }, {
+        const response = await apiService.post("/register", { emailAddress, phoneNumber, username, password }, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }

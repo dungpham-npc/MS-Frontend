@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useFormContext } from '../components/form/FormContext';
+import { toast } from "react-toastify";
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
@@ -21,7 +22,10 @@ const Schema = yup.object().shape({
 
 });
 
+
+
 function FinishRegistration() {
+  const { email } = useParams();
   const auth = useAuth();
   const { formData } = useFormContext();
   const navigate = useNavigate();
@@ -30,7 +34,6 @@ function FinishRegistration() {
     resolver: yupResolver(Schema),
     mode: 'onChange',
     defaultValues: {
-      emailAddress: formData.emailAddress || "",
       phoneNumber: "",
       username: "",
       password: "",
@@ -44,14 +47,17 @@ function FinishRegistration() {
     // Set the email value in the form if it's available in the context
     if (formData.emailAddress) {
       setValue('emailAddress', formData.emailAddress);
+    } else if (email) {
+      setValue('emailAddress', email);
     }
-  }, [formData, setValue]);
+  }, [email, formData, setValue]);
 
   const onSubmit = async (data) => {
     const { emailAddress, phoneNumber, username, password } = data;
     try {
       await auth.register({ emailAddress, phoneNumber, username, password }, () => {
-        navigate("/", { replace: true });
+        navigate("/login", { replace: true });
+        toast.success("Đăng ký thành công")
       });
     } catch (error) {
       reset();

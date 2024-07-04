@@ -42,14 +42,22 @@ function Login() {
         let { username, password } = data;
 
         try {
-            await auth.login({ username, password }, () => {
+            const user = await auth.login({ username, password });
+
+            if (user.role === "ADMIN") {
+                navigate("/admin", { replace: true });
+            } else {
                 navigate(from, { replace: true });
-            });
+            }
         } catch (error) {
             reset();
             setError("responseError", error);
         }
     };
+    const handleLoginGoogle = () => {
+        window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    };
+
 
     return (
         <Container maxWidth="sm" sx={{ mt: 8 }}>
@@ -57,6 +65,7 @@ function Login() {
                 sx={{
                     padding: 4,
                     border: '1px solid #e0e0e0',
+
                     borderRadius: '12px',
                     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                     backgroundColor: '#fff',
@@ -110,6 +119,17 @@ function Login() {
                         </Link>
                     </Typography>
                 </FormProvider>
+                <LoadingButton
+                    fullWidth
+                    size="large"
+                    onClick={handleLoginGoogle}
+                    variant="contained"
+
+                    loading={isSubmitting}
+                    sx={{ py: 1.5, mb: 2, mb: 1, backgroundColor: '#4285F4', '&:hover': { backgroundColor: '#357ae8' } }}
+                >
+                    Đăng nhập bằng Google
+                </LoadingButton>
             </Box>
         </Container>
     );

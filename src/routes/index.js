@@ -21,7 +21,7 @@ import CustomerManagement from '../adminPages/CustomerManagement';
 import StaffLayout from '../layouts/StaffLayout';
 import WelcomeStaff from '../staffPages/WelcomeStaff';
 import StaffProductList from '../staffPages/StaffProductList';
-
+import { AuthProvider } from '../contexts/AuthContext';
 import NoBubbleLayout from '../layouts/NoBubbleLayout';
 import PostPage from '../pages/PostPage';
 import PostCard from '../components/PostCard';
@@ -32,61 +32,68 @@ import OrderListStaff from '../staffPages/OrderListStaff';
 import OrderStatus from '../components/OrderStatus';
 import ProductForm from '../staffPages/ProductForm';
 import OTP from '../pages/OTP';
-import AddStaff from '../adminPages/CreateStaff';
+import AddStaff from '../adminPages/AddStaff';
 import { FormContext2 } from '../components/form/FormContext';
+import PrivateRoute from '../contexts/PrivateRoute';
+import TrasactionStatus from '../pages/TrasactionStatus';
 function Router() {
   return (
-    <FormContext2>
-      <Routes >
+    <AuthProvider>
+      <FormContext2>
+        <Routes >
 
 
 
-        <Route path="/" element={<MainLayout />} >
-          <Route index element={<Home />} />
-          <Route path="product/:id" element={<DetailPage />} />
-          <Route path='editAcc' element={<EditCustomerAccount />} />
-          <Route path='purchase' element={<PurchaseHistory />} />
-          <Route path='password' element={<ChangePassword />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/post" element={<PostPage />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/orderstatus/:orderId" element={<OrderStatus />} />
-          <Route path="toship" element={<OrderList />} />
-        </Route>
-        <Route element={<BlankLayout />} >
+          <Route path="/" element={<MainLayout />} >
+            <Route index element={<Home />} />
+            <Route path="product/:productID" element={<DetailPage />} />
+            <Route path='editAcc' element={<EditCustomerAccount />} />
+            <Route path='purchase' element={<PurchaseHistory />} />
+            <Route path='password' element={<ChangePassword />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/post" element={<PostPage />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/orderstatus/:orderId" element={<OrderStatus />} />
+            <Route path="toship" element={<OrderList />} />
+            <Route path="transStatus" element={<TrasactionStatus />} />
+          </Route>
+          <Route element={<BlankLayout />} >
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/reset" element={<ForgotPassword />} />
-          <Route path='*' element={<Error />} />
-          <Route path='/fill' element={<FinnishRegistration />} />
-          <Route path="/otp" element={<OTP />} />
-        </Route>
-        <Route element={<NoBubbleLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/reset" element={<ForgotPassword />} />
+            <Route path='*' element={<Error />} />
+            <Route path='/fill' element={<FinnishRegistration />} />
+            <Route path="/otp" element={<OTP />} />
+          </Route>
+          <Route element={<NoBubbleLayout />}>
 
-        </Route>
+          </Route>
 
             //admin route
 
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<WelcomeAdmin />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="staff" element={<StaffManagement />} />
-          <Route path="customer" element={<CustomerManagement />} />
-          <Route path="newStaff" element={<AddStaff />} />
-        </Route>
+          {/* <Route element={<PrivateRoute roles={['ADMIN']} />}> */}
+          <Route path='admin' element={<AdminLayout />}>
+            <Route index element={<WelcomeAdmin />} />
+            <Route path="dashboard" element={<DashboardPage />} />
+            <Route path="staff" element={<StaffManagement />} />
+            <Route path="customer" element={<CustomerManagement />} />
+            <Route path="newStaff" element={<AddStaff />} />
+          </Route>
+          {/* asdasd */}
       //staff route
-        <Route path='staff' element={<StaffLayout />}>
-          <Route index element={<WelcomeStaff />} />
-          <Route path='product' element={<StaffProductList />} />
-          <Route path='product/new' element={<ProductForm />} />
-          <Route path='product/edit/:id' element={<ProductForm />} />
-          <Route path='customer' element={<CustomerManagement />} />
-          <Route path='post' element={<PostStaff />} />
-          <Route path='order' element={<OrderListStaff />} />
-        </Route>
-      </Routes>
-    </FormContext2>
+          <Route path='staff' element={<StaffLayout />}>
+            <Route index element={<WelcomeStaff />} />
+            <Route path='product' element={<StaffProductList />} />
+            <Route path='product/new' element={<ProductForm />} />
+            <Route path='product/edit/:id' element={<ProductForm />} />
+            <Route path='customer' element={<CustomerManagement />} />
+            <Route path='post' element={<PostStaff />} />
+            <Route path='order' element={<OrderListStaff />} />
+          </Route>
+        </Routes>
+      </FormContext2>
+    </AuthProvider>
   );
 }
 
