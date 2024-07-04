@@ -42,8 +42,8 @@ const districts = [
   'Huyện Nhà Bè',
 ];
 
-export default function AddressForm() {
-  const [district, setDistrict] = React.useState('');
+export default function AddressForm({ district, setDistrict }) {
+
 
   const handleDistrictChange = (event) => {
     setDistrict(event.target.value);
@@ -87,6 +87,7 @@ export default function AddressForm() {
           <Select
             id="district"
             name="district"
+            type="text"
             value={district}
             onChange={handleDistrictChange}
             displayEmpty
@@ -109,14 +110,14 @@ export default function AddressForm() {
         <TextField
           id="telNo"
           name="telNo"
-          type="tel"
+          type="text"
           placeholder=""
           autoComplete="telNo"
           required
           variant="outlined"
         />
       </FormGrid>
-      
+
     </Grid>
   );
 }

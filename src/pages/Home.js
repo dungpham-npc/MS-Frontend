@@ -51,10 +51,15 @@ function HomePage() {
     ];
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
         const getProducts = async () => {
             setLoading(true);
             try {
-                const res = await apiService.get("/api/products");
+                const res = await apiService.get("/api/products", {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
                 // Ensure res.data is an array
                 setProducts(res.data.result);
                 setError("");

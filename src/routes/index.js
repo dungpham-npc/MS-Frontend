@@ -32,9 +32,10 @@ import OrderListStaff from '../staffPages/OrderListStaff';
 import OrderStatus from '../components/OrderStatus';
 import ProductForm from '../staffPages/ProductForm';
 import OTP from '../pages/OTP';
-import AddStaff from '../adminPages/CreateStaff';
+import AddStaff from '../adminPages/AddStaff';
 import { FormContext2 } from '../components/form/FormContext';
 import PrivateRoute from '../contexts/PrivateRoute';
+import TrasactionStatus from '../pages/TrasactionStatus';
 function Router() {
   return (
     <AuthProvider>
@@ -54,6 +55,7 @@ function Router() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/orderstatus/:orderId" element={<OrderStatus />} />
             <Route path="toship" element={<OrderList />} />
+            <Route path="transStatus" element={<TrasactionStatus />} />
           </Route>
           <Route element={<BlankLayout />} >
 

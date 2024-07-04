@@ -11,66 +11,22 @@ import Stack from '@mui/material/Stack';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
-import AddressForm from '../components/checkout/AddressForm'
+import AddressForm from '../components/checkout/AddressForm';
 import getCheckoutTheme from '../components/checkout/getCheckoutTheme';
 import Info from '../components/checkout/Info';
 import InfoMobile from '../components/checkout/InfoMobile';
-// import PaymentForm from './PaymentForm';
 import Review from '../components/checkout/Review';
-// import ToggleColorMode from './ToggleColorMode';
-
-// function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
-//   return (
-//     <Box
-//       sx={{
-//         display: 'flex',
-//         flexDirection: 'column',
-//         alignItems: 'center',
-//         width: '100dvw',
-//         position: 'fixed',
-//         bottom: 24,
-//       }}
-//     >
-//       <ToggleButtonGroup
-//         color="primary"
-//         exclusive
-//         value={showCustomTheme}
-//         onChange={toggleCustomTheme}
-//         aria-label="Platform"
-//         sx={{
-//           backgroundColor: 'background.default',
-//           '& .Mui-selected': {
-//             pointerEvents: 'none',
-//           },
-//         }}
-//       >
-//         <ToggleButton value>
-//           <AutoAwesomeRoundedIcon sx={{ fontSize: '20px', mr: 1 }} />
-//           Custom theme
-//         </ToggleButton>
-//         <ToggleButton value={false}>Material Design 2</ToggleButton>
-//       </ToggleButtonGroup>
-//     </Box>
-//   );
-// }
-
-// ToggleCustomTheme.propTypes = {
-//   showCustomTheme: PropTypes.shape({
-//     valueOf: PropTypes.func.isRequired,
-//   }).isRequired,
-//   toggleCustomTheme: PropTypes.func.isRequired,
-// };
+import apiService from '../app/apiService';
+import { useState } from 'react';
 
 const steps = ['Thông tin người dùng', 'Thông tin đơn hàng'];
 
@@ -81,13 +37,12 @@ const logoStyle = {
   marginRight: '-8px',
 };
 
-function getStepContent(step) {
+function getStepContent(step, district, setDistrict, orderId) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <AddressForm district={district} setDistrict={setDistrict} />;
     case 1:
-      return <Review />;
-   
+      return <Review orderId={orderId} />;
     default:
       throw new Error('Unknown step');
   }
@@ -95,31 +50,106 @@ function getStepContent(step) {
 
 export default function Checkout() {
   const [mode, setMode] = React.useState('light');
+  const [district, setDistrict] = useState('');
   const [showCustomTheme, setShowCustomTheme] = React.useState(false);
   const checkoutTheme = createTheme(getCheckoutTheme(mode));
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
+  const [totalPrice, setTotalPrice] = React.useState(0.00);
+  const [cartId, setCartId] = React.useState("");
+  const [orderId, setOrderId] = React.useState("");
 
-  // const toggleColorMode = () => {
-  //   setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  // };
+  const handleNext = async () => {
+    if (activeStep === steps.length - 2) {
+      const savedUser = JSON.parse(localStorage.getItem('user'));
 
-  const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev);
+      if (!savedUser || !savedUser.id) {
+        console.error('User ID not found in local storage');
+        return;
+      }
+
+      const userId = savedUser.id;
+      const receiverName = document.getElementById('fullName').value;
+      const shippingAddress = document.getElementById('address').value + ' ' + district;
+      const receiverPhoneNumber = document.getElementById('telNo').value;
+      const token = localStorage.getItem("token");
+
+      const orderData = {
+        shippingAddress,
+        totalPrice,
+        receiverName,
+        receiverPhoneNumber
+      };
+
+
+      try {
+        const responseOrder = await apiService.post(`api/orders/${userId}`, orderData, {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+
+        console.log('Order placed successfully');
+        const newOrderId = responseOrder.data.result.id;
+        setOrderId(newOrderId);
+
+        setActiveStep(activeStep + 1);
+
+        // Fetch order details after updating cartId
+        try {
+          const responseOrderDetail = await apiService.get(`/api/orders/${newOrderId}`, {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          });
+          console.log(responseOrderDetail.data);
+        } catch (error) {
+          console.error('Error fetching order details:', error);
+        }
+
+      } catch (error) {
+        console.error('Error placing order:', error);
+      }
+    } else {
+      setActiveStep(activeStep + 1);
+    }
+    if (activeStep === steps.length - 1) {
+      const savedUser = JSON.parse(localStorage.getItem('user'));
+      const userId = savedUser.id;
+      const token = localStorage.getItem("token");
+      const amount = Math.round(parseFloat(totalPrice)); // Convert to long integer
+
+      try {
+        const responsePayment = await apiService.post(
+          `/api/payment/pay/${orderId}`,
+          { amount: amount * 10000 }, // Ensure amount is a long integer
+          {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          }
+        );
+        const url = responsePayment.data.result.paymentUrl;
+        console.log(url);
+        //vnp_ResponseCode=00
+        window.location.href = url;
+
+
+      } catch (error) {
+        console.log('Error')
+      }
+    }
   };
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
+  console.log(orderId)
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-
+  console.log(totalPrice)
   return (
     <ThemeProvider theme={showCustomTheme ? checkoutTheme : defaultTheme}>
       <CssBaseline />
-      <Grid container sx={{ height: { xs: '100%', sm: '100dvh' }, mb: 3 }  }>
+      <Grid container sx={{ height: { xs: '100%', sm: '100dvh' }, mb: 3 }}>
         <Grid
           item
           xs={12}
@@ -141,10 +171,9 @@ export default function Checkout() {
             sx={{
               display: 'flex',
               alignItems: 'end',
-              height: 150,
+              height: 50,
             }}
           >
-           
           </Box>
           <Box
             sx={{
@@ -155,9 +184,7 @@ export default function Checkout() {
               maxWidth: 500,
             }}
           >
-            {/* fix giá total */}
-            <Info totalPrice={activeStep >= 2 ? '$144.97' : '$134.98'} />
-              
+            <Info totalPrice={totalPrice} setTotalPrice={setTotalPrice} setCartId={setCartId} />
           </Box>
         </Grid>
         <Grid
@@ -209,7 +236,6 @@ export default function Checkout() {
                   alt="Sitemark's logo"
                 />
               </Button>
-              {/* <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} /> */}
             </Box>
             <Box
               sx={{
@@ -221,7 +247,6 @@ export default function Checkout() {
                 height: 150,
               }}
             >
-              {/* <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} /> */}
               <Stepper
                 id="desktop-stepper"
                 activeStep={activeStep}
@@ -264,10 +289,10 @@ export default function Checkout() {
                   Selected products
                 </Typography>
                 <Typography variant="body1">
-                  {activeStep >= 2 ? '$144.97' : '$134.98'}
+                  ${totalPrice}
                 </Typography>
               </div>
-              <InfoMobile totalPrice={activeStep >= 2 ? '$144.97' : '$134.98'} />
+              <InfoMobile totalPrice={totalPrice} />
             </CardContent>
           </Card>
           <Box
@@ -325,7 +350,7 @@ export default function Checkout() {
               </Stack>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
+                {getStepContent(activeStep, district, setDistrict, orderId)}
                 <Box
                   sx={{
                     display: 'flex',
@@ -382,10 +407,6 @@ export default function Checkout() {
           </Box>
         </Grid>
       </Grid>
-      {/* <ToggleCustomTheme
-        toggleCustomTheme={toggleCustomTheme}
-        showCustomTheme={showCustomTheme}
-      /> */}
     </ThemeProvider>
   );
 }

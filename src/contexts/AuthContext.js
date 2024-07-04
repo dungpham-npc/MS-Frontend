@@ -180,7 +180,7 @@ function AuthProvider({ children }) {
         callback();
     };
     const register = async ({ emailAddress, phoneNumber, username, password }, callback) => {
-        const response = await apiService.post("/register/complete-registration", { emailAddress, phoneNumber, username, password }, {
+        const response = await apiService.post("/register", { emailAddress, phoneNumber, username, password }, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }

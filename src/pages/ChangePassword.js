@@ -61,7 +61,7 @@ const ChangePassword = () => {
                                     variant="outlined"
                                     validationRules={{
                                         required: 'Password must not be empty',
-                                        validate: (value, allValues) => value !== allValues.oldPassword || 'New password must not be the same as the current password'
+                                        validate: (value, allValues) => value !== allValues.oldPassword || 'Mật khẩu mới không được trùng với mật khẩu củ'
                                     }}
                                     sx={{ mb: 2 }}  // Add margin bottom
                                 />

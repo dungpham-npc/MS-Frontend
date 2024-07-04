@@ -11,6 +11,7 @@ import { Add, Remove } from '@mui/icons-material';
 import apiService from '../app/apiService';
 import LoadingScreen from '../components/LoadingScreen';
 import ProductList from '../components/ProductList';
+import { toast } from 'react-toastify';
 function DetailPage() {
     const [product, setProduct] = useState(null);
     const [result, setProducts] = useState([]);
@@ -38,10 +39,17 @@ function DetailPage() {
 
     useEffect(() => {
         if (params.productID) {
+            const token = localStorage.getItem("token");
             const getProduct = async () => {
                 setLoading(true);
                 try {
-                    const res = await apiService.get(`/api/products/${params.productID}`);
+
+                    const res = await apiService.get(`/api/products/${params.productID}`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
                     setProduct(res.data.result);
 
                     // setCurrentImage(res.data.result.image); // Set the initial image
@@ -121,9 +129,11 @@ function DetailPage() {
                 }
             });
             console.log('Product added to cart:', response.data);
+            toast.success("Sản phẩm đã được thêm vào!")
             // Optionally, trigger any follow-up actions like notifications or updating UI
         } catch (error) {
             console.error('Failed to add product to cart:', error);
+            toast.error("Sản phẩm chưa được thêm vào")
             // Optionally, handle errors, e.g., show error message to the user
         }
     };
